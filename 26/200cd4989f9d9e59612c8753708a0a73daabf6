@@ -1,0 +1,27 @@
+src/test_openalex.py
+  s_d12eeb6998ecf6::t_b07856ea8775c1 1-12
+src/collector.py
+  s_d12eeb6998ecf6::t_2decf94be0f850 4-5,7-11,13-18,20-28,30-32,34-36,38-40,42-51,53-55,57-66,69-83,85-89,91
+data/retrieval_augmented_generation.json
+  s_d12eeb6998ecf6::t_c287540d16702e 1-80
+src/main.py
+  s_d12eeb6998ecf6::t_5665fb77ab2dcd 7,10,32
+src/graph.py
+  s_d12eeb6998ecf6::t_1ed2a9541eac4f 7-9,19-21,27-29,31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "26200cd4989f9d9e59612c8753708a0a73daabf6",
+  "prompts": {},
+  "sessions": {
+    "s_d12eeb6998ecf6": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0d712c2a5ffeZDvZ6qfnhtWPE7",
+        "model": "unknown"
+      },
+      "human_author": "Amey Ranaware <ranaware.amey@gmail.com>"
+    }
+  }
+}
