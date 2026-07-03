@@ -5,16 +5,25 @@ BASE_URL = "https://api.semanticscholar.org/graph/v1"
 FIELDS = "title,authors,year,abstract,citationCount,referenceCount,externalIds,url,publicationTypes,influentialCitationCount"
 
 class Collector:
-    def __init__(self, delay=1.0):
+    def __init__(self, delay=1.0, max_retries=5):
         self.session = requests.Session()
         self.session.headers.update({"User-Agent": "CalybAI/1.0"})
         self.delay = delay
+        self.max_retries = max_retries
 
     def _get(self, url, params=None):
-        time.sleep(self.delay)
-        resp = self.session.get(url, params=params, timeout=30)
-        resp.raise_for_status()
-        return resp.json()
+        for attempt in range(self.max_retries):
+            if attempt > 0:
+                wait = self.delay * (2 ** attempt)
+                time.sleep(wait)
+            else:
+                time.sleep(self.delay)
+            resp = self.session.get(url, params=params, timeout=30)
+            if resp.status_code == 429:
+                continue
+            resp.raise_for_status()
+            return resp.json()
+        raise Exception(f"Failed after {self.max_retries} retries: {url}")
 
     def search_papers(self, query, limit=50):
         data = self._get(f"{BASE_URL}/paper/search", {"query": query, "limit": min(limit, 100), "fields": FIELDS})
