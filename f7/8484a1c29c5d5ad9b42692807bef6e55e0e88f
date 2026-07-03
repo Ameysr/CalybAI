@@ -1,0 +1,21 @@
+src/curriculum.py
+  s_d12eeb6998ecf6::t_173b345ced2557 14-15,17-36,38-40,42-46,48-53,55,58,69,72-73,76-78,94
+src/collector.py
+  s_d12eeb6998ecf6::t_31551e60e5c8df 3,40-43,45-46,48-49,56-59,61-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "f78484a1c29c5d5ad9b42692807bef6e55e0e88f",
+  "prompts": {},
+  "sessions": {
+    "s_d12eeb6998ecf6": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0d712c2a5ffeZDvZ6qfnhtWPE7",
+        "model": "unknown"
+      },
+      "human_author": "Amey Ranaware <ranaware.amey@gmail.com>"
+    }
+  }
+}
