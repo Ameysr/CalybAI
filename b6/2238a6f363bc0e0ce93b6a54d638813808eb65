@@ -1,0 +1,23 @@
+src/collector.py
+  s_d12eeb6998ecf6::t_654bf73194b6ea 57,61-62,67,76
+  s_d12eeb6998ecf6::t_eacf41f723c691 53,63,91-92
+data/retrieval_augmented_generation.json
+  s_d12eeb6998ecf6::t_dbced05ab25ec6 3-7
+  s_d12eeb6998ecf6::t_dac2a16a3f5147 8-9
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "b62238a6f363bc0e0ce93b6a54d638813808eb65",
+  "prompts": {},
+  "sessions": {
+    "s_d12eeb6998ecf6": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0d712c2a5ffeZDvZ6qfnhtWPE7",
+        "model": "unknown"
+      },
+      "human_author": "Amey Ranaware <ranaware.amey@gmail.com>"
+    }
+  }
+}
