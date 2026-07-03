@@ -1,0 +1,19 @@
+src/collector.py
+  s_d12eeb6998ecf6::t_9aca392327b272 34,36,38-39,41,44-46,49,51,53-58,62-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.5",
+  "base_commit_sha": "363889c5bd51aa2902760339eb2c8ef450dee592",
+  "prompts": {},
+  "sessions": {
+    "s_d12eeb6998ecf6": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0d712c2a5ffeZDvZ6qfnhtWPE7",
+        "model": "unknown"
+      },
+      "human_author": "Amey Ranaware <ranaware.amey@gmail.com>"
+    }
+  }
+}
