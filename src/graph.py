@@ -2,18 +2,11 @@ import json
 import networkx as nx
 from pathlib import Path
 
-def short_authors(authors_list, max_n=3):
-    if not authors_list:
-        return "Unknown"
-    names = [a.get("name", "?") for a in authors_list[:max_n]]
-    suffix = " et al." if len(authors_list) > max_n else ""
-    return ", ".join(names) + suffix
-
 def paper_label(p):
     year = p.get("year", "?")
-    first = short_authors(p.get("authors", []))
-    title = p.get("title", "Untitled")[:60]
-    return f"[{year}] {first}: {title}"
+    authors = p.get("authors", "Unknown")
+    title = (p.get("title") or "Untitled")[:60]
+    return f"[{year}] {authors}: {title}"
 
 class PaperGraph:
     def __init__(self):
@@ -23,17 +16,19 @@ class PaperGraph:
     def add_paper(self, paper_id, metadata):
         if paper_id not in self.papers:
             self.papers[paper_id] = metadata
-            self.graph.add_node(paper_id, label=paper_label(metadata), year=metadata.get("year", 0))
+            label = paper_label(metadata)
+            year = metadata.get("year", 0) or 0
+            self.graph.add_node(paper_id, label=label, year=year)
 
     def add_citation(self, from_id, to_id):
-        """from_id cites to_id"""
         if from_id in self.graph and to_id in self.graph:
             self.graph.add_edge(from_id, to_id)
 
-    def from_collector(self, collector, query, target=80):
-        papers_list, edges = collector.crawl_topic(query, target=target)
+    def from_collector(self, query, target=80):
+        from collector import crawl_topic
+        papers_list, edges = crawl_topic(query, target=target)
         for p in papers_list:
-            self.add_paper(p["paperId"], p)
+            self.add_paper(p["id"], p)
         for fr, to in edges:
             self.add_citation(fr, to)
         return self

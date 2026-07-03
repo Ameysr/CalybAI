@@ -1,85 +1,91 @@
 import time
 import requests
 
-BASE_URL = "https://api.semanticscholar.org/graph/v1"
-FIELDS = "title,authors,year,abstract,citationCount,referenceCount,externalIds,url,publicationTypes,influentialCitationCount"
+BASE = "https://api.openalex.org"
+SELECT = "id,title,authorships,publication_year,cited_by_count,referenced_works,abstract_inverted_index,primary_location"
 
-class Collector:
-    def __init__(self, delay=1.0, max_retries=5):
-        self.session = requests.Session()
-        self.session.headers.update({"User-Agent": "CalybAI/1.0"})
-        self.delay = delay
-        self.max_retries = max_retries
+def _get(url, params=None, delay=0.1):
+    time.sleep(delay)
+    resp = requests.get(url, params=params, timeout=30)
+    resp.raise_for_status()
+    return resp.json()
 
-    def _get(self, url, params=None):
-        for attempt in range(self.max_retries):
-            if attempt > 0:
-                wait = self.delay * (2 ** attempt)
-                time.sleep(wait)
-            else:
-                time.sleep(self.delay)
-            resp = self.session.get(url, params=params, timeout=30)
-            if resp.status_code == 429:
-                continue
-            resp.raise_for_status()
-            return resp.json()
-        raise Exception(f"Failed after {self.max_retries} retries: {url}")
+def _short_auth(authorships):
+    if not authorships:
+        return "Unknown"
+    names = [a.get("author", {}).get("display_name", "?") for a in authorships[:3]]
+    suffix = " et al." if len(authorships) > 3 else ""
+    return ", ".join(names) + suffix
 
-    def search_papers(self, query, limit=50):
-        data = self._get(f"{BASE_URL}/paper/search", {"query": query, "limit": min(limit, 100), "fields": FIELDS})
-        return data.get("data", [])
+def _clean_paper(w):
+    return {
+        "id": w["id"],
+        "title": w.get("title", "Untitled"),
+        "year": w.get("publication_year"),
+        "authors": _short_auth(w.get("authorships", [])),
+        "cited_by_count": w.get("cited_by_count", 0),
+        "referenced_works": w.get("referenced_works", []),
+    }
 
-    def get_paper(self, paper_id):
-        return self._get(f"{BASE_URL}/paper/{paper_id}", {"fields": FIELDS})
+def search_works(query, limit=50):
+    data = _get(f"{BASE}/works", {"search": query, "per_page": min(limit, 200), "select": SELECT})
+    return [_clean_paper(w) for w in data.get("results", [])]
 
-    def get_references(self, paper_id, limit=50):
-        data = self._get(f"{BASE_URL}/paper/{paper_id}/references", {"limit": min(limit, 100), "fields": FIELDS})
-        return data.get("data", [])
+def get_work(work_id):
+    w = _get(f"{BASE}/works/{work_id}", {"select": SELECT})
+    return _clean_paper(w)
 
-    def get_citations(self, paper_id, limit=50):
-        data = self._get(f"{BASE_URL}/paper/{paper_id}/citations", {"limit": min(limit, 100), "fields": FIELDS})
-        return data.get("data", [])
+def get_citing_works(work_id, limit=50):
+    data = _get(f"{BASE}/works", {"filter": f"cites:{work_id}", "per_page": min(limit, 200), "select": SELECT})
+    return [_clean_paper(w) for w in data.get("results", [])]
 
-    def crawl_topic(self, query, target=80, ref_limit=30, cit_limit=20):
-        papers = {}
-        edges = []
+def get_works_batch(ids, delay=0.05):
+    papers = {}
+    chunk_size = 50
+    for i in range(0, len(ids), chunk_size):
+        chunk = ids[i:i+chunk_size]
+        joined = "|".join(chunk)
+        data = _get(f"{BASE}/works", {"filter": f"openalex:{joined}", "per_page": chunk_size, "select": SELECT}, delay=delay)
+        for w in data.get("results", []):
+            papers[w["id"]] = _clean_paper(w)
+    return papers
 
-        seeds = self.search_papers(query, limit=min(target, 100))
-        for p in seeds:
-            pid = p["paperId"]
-            if pid not in papers:
-                papers[pid] = p
+def crawl_topic(query, target=80, ref_limit=50, cit_limit=30):
+    papers = {}
+    edges = []
 
-        pids = list(papers.keys())
-        for pid in pids:
+    seeds = search_works(query, limit=min(target, 100))
+    for p in seeds:
+        papers[p["id"]] = p
+
+    new_ids = list(papers.keys())
+    for pid in new_ids:
+        if len(papers) >= target:
+            break
+        p = papers[pid]
+        for ref in p.get("referenced_works", [])[:ref_limit]:
             if len(papers) >= target:
                 break
-            try:
-                refs = self.get_references(pid, limit=ref_limit)
-                for r in refs:
-                    if len(papers) >= target:
-                        break
-                    rp = r.get("referencedPaper")
-                    if rp and rp.get("paperId"):
-                        rid = rp["paperId"]
-                        if rid not in papers:
-                            papers[rid] = rp
-                        edges.append((pid, rid))
-            except Exception:
-                pass
+            if ref not in papers:
+                papers[ref] = {"id": ref, "title": None, "year": None, "authors": None, "cited_by_count": 0, "referenced_works": []}
+            edges.append((pid, ref))
 
-            try:
-                cites = self.get_citations(pid, limit=cit_limit)
-                for c in cites:
-                    if len(papers) >= target:
-                        break
-                    cp = c.get("citingPaper")
-                    if cp and cp.get("paperId"):
-                        cid = cp["paperId"]
-                        if cid not in papers:
-                            papers[cid] = cp
-                        edges.append((cid, pid))
-            except Exception:
-                pass
+        try:
+            citing = get_citing_works(pid, limit=cit_limit)
+            for c in citing:
+                if len(papers) >= target:
+                    break
+                cid = c["id"]
+                if cid not in papers:
+                    papers[cid] = c
+                edges.append((cid, pid))
+        except Exception:
+            pass
 
-        return list(papers.values()), edges
+    ref_ids = [pid for pid, p in papers.items() if p["title"] is None]
+    if ref_ids:
+        fetched = get_works_batch(ref_ids)
+        for rid, rp in fetched.items():
+            papers[rid] = rp
+
+    return list(papers.values()), edges
