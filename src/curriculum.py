@@ -6,9 +6,8 @@ class Curriculum:
         self.papers = graph.papers
         self.analyzer = analyzer
 
-    def reading_order(self):
+    def _resolve_order(self):
         pr = self.analyzer.pagerank()
-        in_deg, out_deg = self.analyzer.degree_metrics()
 
         try:
             ts_order = list(nx.topological_sort(self.graph))
@@ -35,25 +34,33 @@ class Curriculum:
                 ts_order.extend(nodes)
             has_cycles = True
 
-        relevant = set(self.graph.nodes())
-        ts_rank = {pid: i for i, pid in enumerate(ts_order) if pid in relevant}
-        unranked = [pid for pid in relevant if pid not in ts_rank]
+        ts_index = {pid: i for i, pid in enumerate(ts_order)}
 
-        unranked.sort(key=lambda pid: (
+        depths = {}
+        for pid in ts_order:
+            preds = list(self.graph.predecessors(pid))
+            if not preds:
+                depths[pid] = 0
+            else:
+                depths[pid] = 1 + max(depths.get(p, -1) for p in preds)
+
+        return ts_order, depths, has_cycles
+
+    def reading_order(self):
+        pr = self.analyzer.pagerank()
+        in_deg, out_deg = self.analyzer.degree_metrics()
+        ts_order, depths, has_cycles = self._resolve_order()
+
+        nodes = list(self.graph.nodes())
+        nodes.sort(key=lambda pid: (
+            depths.get(pid, 0),
+            self.papers.get(pid, {}).get("year") or 9999,
             -pr.get(pid, 0),
-            -(self.papers.get(pid, {}).get("year") or 0),
             -in_deg.get(pid, 0)
         ))
 
-        order = ts_order + unranked
-        ts_order_2 = []
-        for pid in order:
-            if pid in relevant:
-                ts_order_2.append(pid)
-        order = ts_order_2
-
         result = []
-        for rank, pid in enumerate(order, 1):
+        for rank, pid in enumerate(nodes, 1):
             md = self.papers.get(pid, {})
             result.append({
                 "rank": rank,
