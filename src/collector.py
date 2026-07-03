@@ -50,21 +50,21 @@ def get_works_batch(ids, delay=0.05):
             papers[w["id"]] = _clean_paper(w)
     return papers
 
-def crawl_topic(query, target=80, ref_limit=50, cit_limit=30):
+def crawl_topic(query, target=80, ref_limit=50, cit_limit=20):
     papers = {}
     edges = []
 
-    seeds = search_works(query, limit=min(target, 100))
+    seeds = search_works(query, limit=50)
     for p in seeds:
         papers[p["id"]] = p
 
-    new_ids = list(papers.keys())
-    for pid in new_ids:
-        if len(papers) >= target:
+    seed_ids = list(papers.keys())
+    for i, pid in enumerate(seed_ids):
+        if i >= max(target // 2, 20):
             break
         p = papers[pid]
         for ref in p.get("referenced_works", [])[:ref_limit]:
-            if len(papers) >= target:
+            if len(papers) >= target * 2:
                 break
             if ref not in papers:
                 papers[ref] = {"id": ref, "title": None, "year": None, "authors": None, "cited_by_count": 0, "referenced_works": []}
@@ -73,7 +73,7 @@ def crawl_topic(query, target=80, ref_limit=50, cit_limit=30):
         try:
             citing = get_citing_works(pid, limit=cit_limit)
             for c in citing:
-                if len(papers) >= target:
+                if len(papers) >= target * 2:
                     break
                 cid = c["id"]
                 if cid not in papers:
@@ -88,4 +88,5 @@ def crawl_topic(query, target=80, ref_limit=50, cit_limit=30):
         for rid, rp in fetched.items():
             papers[rid] = rp
 
-    return list(papers.values()), edges
+    result = [p for p in papers.values() if p["title"] is not None]
+    return result, edges
