@@ -31,28 +31,46 @@ class Collector:
         data = self._get(f"{BASE_URL}/paper/{paper_id}/citations", {"limit": min(limit, 100), "fields": FIELDS})
         return data.get("data", [])
 
-    def fetch_all_papers_by_references(self, seed_papers, max_papers=100):
+    def crawl_topic(self, query, target=80, ref_limit=30, cit_limit=20):
         papers = {}
-        refs_to_fetch = []
+        edges = []
 
-        for p in seed_papers:
+        seeds = self.search_papers(query, limit=min(target, 100))
+        for p in seeds:
             pid = p["paperId"]
-            if pid and pid not in papers:
+            if pid not in papers:
                 papers[pid] = p
-                refs_to_fetch.append(pid)
 
-        for pid in refs_to_fetch:
-            if len(papers) >= max_papers:
+        pids = list(papers.keys())
+        for pid in pids:
+            if len(papers) >= target:
                 break
             try:
-                refs = self.get_references(pid, limit=20)
+                refs = self.get_references(pid, limit=ref_limit)
                 for r in refs:
-                    if len(papers) >= max_papers:
+                    if len(papers) >= target:
                         break
-                    rp = r.get("referencedPaper") or r.get("citedPaper")
-                    if rp and rp.get("paperId") and rp["paperId"] not in papers:
-                        papers[rp["paperId"]] = rp
+                    rp = r.get("referencedPaper")
+                    if rp and rp.get("paperId"):
+                        rid = rp["paperId"]
+                        if rid not in papers:
+                            papers[rid] = rp
+                        edges.append((pid, rid))
             except Exception:
                 pass
 
-        return list(papers.values())
+            try:
+                cites = self.get_citations(pid, limit=cit_limit)
+                for c in cites:
+                    if len(papers) >= target:
+                        break
+                    cp = c.get("citingPaper")
+                    if cp and cp.get("paperId"):
+                        cid = cp["paperId"]
+                        if cid not in papers:
+                            papers[cid] = cp
+                        edges.append((cid, pid))
+            except Exception:
+                pass
+
+        return list(papers.values()), edges
