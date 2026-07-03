@@ -5,52 +5,57 @@ class Curriculum:
         self.graph = graph.graph
         self.papers = graph.papers
         self.analyzer = analyzer
-        self.stats = analyzer.stats()
-
-    def _resolve_cycles(self):
-        try:
-            order = list(nx.topological_sort(self.graph))
-            return order, False
-        except nx.NetworkXUnfeasible:
-            pass
-
-        sccs = list(nx.strongly_connected_components(self.graph))
-        large_sccs = [s for s in sccs if len(s) > 1]
-        condensed = nx.DiGraph()
-        scc_map = {}
-        for i, scc in enumerate(sccs):
-            for n in scc:
-                scc_map[n] = i
-            condensed.add_node(i)
-
-        for u, v in self.graph.edges():
-            if scc_map[u] != scc_map[v]:
-                condensed.add_edge(scc_map[u], scc_map[v])
-
-        try:
-            condensed_order = list(nx.topological_sort(condensed))
-        except nx.NetworkXUnfeasible:
-            condensed_order = list(condensed.nodes())
-
-        pr = self.analyzer.pagerank()
-        order = []
-        for ci in condensed_order:
-            scc_nodes = list(sccs[ci])
-            if len(scc_nodes) > 1:
-                scc_nodes.sort(key=lambda n: pr.get(n, 0), reverse=True)
-            order.extend(scc_nodes)
-
-        return order, bool(large_sccs)
 
     def reading_order(self):
-        order, has_cycles = self._resolve_cycles()
         pr = self.analyzer.pagerank()
         in_deg, out_deg = self.analyzer.degree_metrics()
 
-        ordered = []
+        try:
+            ts_order = list(nx.topological_sort(self.graph))
+            has_cycles = False
+        except nx.NetworkXUnfeasible:
+            sccs = list(nx.strongly_connected_components(self.graph))
+            scc_map = {}
+            for i, scc in enumerate(sccs):
+                for n in scc:
+                    scc_map[n] = i
+            condensed = nx.DiGraph()
+            for i in range(len(sccs)):
+                condensed.add_node(i)
+            for u, v in self.graph.edges():
+                if scc_map[u] != scc_map[v]:
+                    condensed.add_edge(scc_map[u], scc_map[v])
+            try:
+                corder = list(nx.topological_sort(condensed))
+            except nx.NetworkXUnfeasible:
+                corder = list(condensed.nodes())
+            ts_order = []
+            for ci in corder:
+                nodes = sorted(sccs[ci], key=lambda n: pr.get(n, 0), reverse=True)
+                ts_order.extend(nodes)
+            has_cycles = True
+
+        relevant = set(self.graph.nodes())
+        ts_rank = {pid: i for i, pid in enumerate(ts_order) if pid in relevant}
+        unranked = [pid for pid in relevant if pid not in ts_rank]
+
+        unranked.sort(key=lambda pid: (
+            -pr.get(pid, 0),
+            -(self.papers.get(pid, {}).get("year") or 0),
+            -in_deg.get(pid, 0)
+        ))
+
+        order = ts_order + unranked
+        ts_order_2 = []
+        for pid in order:
+            if pid in relevant:
+                ts_order_2.append(pid)
+        order = ts_order_2
+
+        result = []
         for rank, pid in enumerate(order, 1):
             md = self.papers.get(pid, {})
-            ordered.append({
+            result.append({
                 "rank": rank,
                 "id": pid,
                 "title": md.get("title", "?"),
@@ -61,14 +66,16 @@ class Curriculum:
                 "in_degree": in_deg.get(pid, 0),
                 "out_degree": out_deg.get(pid, 0),
             })
-        return ordered, has_cycles
+        return result, has_cycles
 
     def foundational_papers(self, top_n=10):
-        order, _ = self._resolve_cycles()
+        order, _ = self.reading_order()
+        order_map = {p["id"]: p["rank"] for p in order}
         pr = self.analyzer.pagerank()
         scored = []
-        for rank, pid in enumerate(order):
-            score = pr.get(pid, 0) * 1000 - rank * 0.001
+        for pid in self.graph.nodes():
+            rank = order_map.get(pid, 9999)
+            score = pr.get(pid, 0) - rank * 0.0001
             scored.append((score, pid))
         scored.sort(key=lambda x: x[0], reverse=True)
         result = []
@@ -84,7 +91,7 @@ class Curriculum:
         return result
 
     def survey_papers(self, top_n=5):
-        in_deg, out_deg = self.analyzer.degree_metrics()
+        out_deg = dict(self.graph.out_degree())
         scored = [(out_deg.get(pid, 0), pid) for pid in self.graph.nodes()]
         scored.sort(key=lambda x: x[0], reverse=True)
         result = []

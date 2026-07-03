@@ -1,5 +1,6 @@
 import time
 import requests
+from collections import Counter
 
 BASE = "https://api.openalex.org"
 SELECT = "id,title,authorships,publication_year,cited_by_count,referenced_works,abstract_inverted_index,primary_location"
@@ -31,45 +32,48 @@ def search_works(query, limit=50):
     data = _get(f"{BASE}/works", {"search": query, "per_page": min(limit, 200), "select": SELECT})
     return [_clean_paper(w) for w in data.get("results", [])]
 
-def get_work(work_id):
-    w = _get(f"{BASE}/works/{work_id}", {"select": SELECT})
-    return _clean_paper(w)
-
 def get_citing_works(work_id, limit=50):
     data = _get(f"{BASE}/works", {"filter": f"cites:{work_id}", "per_page": min(limit, 200), "select": SELECT})
     return [_clean_paper(w) for w in data.get("results", [])]
 
 def get_works_batch(ids, delay=0.05):
-    papers = {}
-    chunk_size = 50
-    for i in range(0, len(ids), chunk_size):
-        chunk = ids[i:i+chunk_size]
-        joined = "|".join(chunk)
-        data = _get(f"{BASE}/works", {"filter": f"openalex:{joined}", "per_page": chunk_size, "select": SELECT}, delay=delay)
+    result = {}
+    for i in range(0, len(ids), 50):
+        chunk = ids[i:i+50]
+        data = _get(f"{BASE}/works", {"filter": "openalex:" + "|".join(chunk), "per_page": 50, "select": SELECT}, delay=delay)
         for w in data.get("results", []):
-            papers[w["id"]] = _clean_paper(w)
-    return papers
+            result[w["id"]] = _clean_paper(w)
+    return result
 
-def crawl_topic(query, target=80, ref_limit=50, cit_limit=20):
+def crawl_topic(query, target=80, cit_limit=15):
+    seeds = search_works(query, limit=50)
     papers = {}
     edges = []
 
-    seeds = search_works(query, limit=50)
     for p in seeds:
         papers[p["id"]] = p
 
-    seed_ids = list(papers.keys())
-    for i, pid in enumerate(seed_ids):
-        if i >= max(target // 2, 20):
-            break
-        p = papers[pid]
-        for ref in p.get("referenced_works", [])[:ref_limit]:
-            if len(papers) >= target * 2:
-                break
-            if ref not in papers:
-                papers[ref] = {"id": ref, "title": None, "year": None, "authors": None, "cited_by_count": 0, "referenced_works": []}
-            edges.append((pid, ref))
+    ref_counter = Counter()
+    for p in seeds:
+        for ref in p.get("referenced_works", []):
+            ref_counter[ref] += 1
 
+    max_refs = target * 2 - len(seeds)
+    top_refs = [rid for rid, _ in ref_counter.most_common(max_refs) if rid not in papers]
+
+    for rid in top_refs:
+        papers[rid] = {"id": rid, "title": None, "year": None, "authors": None, "cited_by_count": 0, "referenced_works": []}
+
+    for p in seeds:
+        pid = p["id"]
+        for ref in p.get("referenced_works", []):
+            if ref in papers:
+                edges.append((pid, ref))
+
+    seed_sample = list(papers.keys())[:max(target // 2, 20)]
+    for pid in seed_sample:
+        if len(papers) >= target * 2:
+            break
         try:
             citing = get_citing_works(pid, limit=cit_limit)
             for c in citing:
