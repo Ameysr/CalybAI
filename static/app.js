@@ -260,17 +260,38 @@ function renderGraph(graphData) {
   network.on("click", params => {
     if (params.nodes.length > 0) {
       const pid = params.nodes[0];
-      selectedNodeId = pid;
-      showPaperDetail(pid);
-      highlightNeighbors(pid);
-      network.focus(pid, {
-        scale: Math.max(network.getScale(), 0.95),
-        animation: { duration: 600, easingFunction: "easeInOutQuad" }
-      });
+      if (selectedNodeId === pid) {
+        // Clicked the already selected node -> deselect and zoom out to fit all
+        selectedNodeId = null;
+        hidePaperDetail();
+        resetHighlighting();
+        network.unselectNodes();
+        network.fit({ animation: { duration: 800, easingFunction: "easeInOutQuad" } });
+      } else {
+        selectedNodeId = pid;
+        showPaperDetail(pid);
+        highlightNeighbors(pid);
+        
+        const connectedNodes = network.getConnectedNodes(pid);
+        if (connectedNodes.length > 1) {
+          // Fit the node and all its connected neighbors in view
+          network.fit({
+            nodes: [pid, ...connectedNodes],
+            animation: { duration: 800, easingFunction: "easeInOutQuad" }
+          });
+        } else {
+          // Moderate focus for isolated nodes so it doesn't zoom too far in
+          network.focus(pid, {
+            scale: 0.75,
+            animation: { duration: 800, easingFunction: "easeInOutQuad" }
+          });
+        }
+      }
     } else {
       selectedNodeId = null;
       hidePaperDetail();
       resetHighlighting();
+      network.fit({ animation: { duration: 800, easingFunction: "easeInOutQuad" } });
     }
   });
 
@@ -753,10 +774,19 @@ function jumpToGraphNode(pid) {
       network.selectNodes([pid]);
       showPaperDetail(pid);
       highlightNeighbors(pid);
-      network.focus(pid, {
-        scale: 1.1,
-        animation: { duration: 800, easingFunction: "easeInOutQuad" }
-      });
+      
+      const connectedNodes = network.getConnectedNodes(pid);
+      if (connectedNodes.length > 1) {
+        network.fit({
+          nodes: [pid, ...connectedNodes],
+          animation: { duration: 800, easingFunction: "easeInOutQuad" }
+        });
+      } else {
+        network.focus(pid, {
+          scale: 0.75,
+          animation: { duration: 800, easingFunction: "easeInOutQuad" }
+        });
+      }
     }, 200);
   }
 }
