@@ -155,9 +155,77 @@ function getCommunityColor(index) {
   return palette[index % palette.length];
 }
 
+function getCommunityTopics(nodes) {
+  const stopWords = new Set([
+    "of", "and", "the", "a", "in", "to", "for", "with", "on", "using", "an", "based", 
+    "through", "by", "as", "from", "its", "it", "is", "at", "are", "we", "this", "that",
+    "retrieval", "augmented", "generation", "paper", "study", "analysis", "system", "systems", "network"
+  ]);
+  const communities = {};
+  
+  nodes.forEach(n => {
+    if (!communities[n.community]) {
+      communities[n.community] = [];
+    }
+    communities[n.community].push(n.title || "");
+  });
+  
+  const topics = {};
+  Object.keys(communities).forEach(cId => {
+    const wordCounts = {};
+    communities[cId].forEach(title => {
+      const words = title.toLowerCase()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .split(/\s+/);
+      words.forEach(w => {
+        if (w.length > 3 && !stopWords.has(w)) {
+          wordCounts[w] = (wordCounts[w] || 0) + 1;
+        }
+      });
+    });
+    
+    // Sort words by count
+    const sortedWords = Object.keys(wordCounts)
+      .sort((a, b) => wordCounts[b] - wordCounts[a])
+      .slice(0, 2);
+    
+    if (sortedWords.length > 0) {
+      topics[cId] = sortedWords.map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" & ");
+    } else {
+      topics[cId] = `Topic Group ${parseInt(cId) + 1}`;
+    }
+  });
+  
+  return topics;
+}
+
 function renderGraph(graphData) {
   const container = document.getElementById("graph-container");
   container.innerHTML = "";
+
+  // Render Legend/Color Chart
+  try {
+    const topics = getCommunityTopics(graphData.nodes);
+    const legendList = document.getElementById("legend-list");
+    const legendContainer = document.getElementById("graph-legend");
+    
+    const activeCommunities = Array.from(new Set(graphData.nodes.map(n => n.community))).sort((a, b) => a - b);
+    
+    legendList.innerHTML = activeCommunities.map(cId => {
+      const color = getCommunityColor(cId);
+      const label = topics[cId] || `Theme ${parseInt(cId) + 1}`;
+      return `
+        <div class="legend-item">
+          <span class="legend-color-dot" style="background: ${color}"></span>
+          <span class="legend-label" title="${label}">${label}</span>
+        </div>
+      `;
+    }).join("");
+    
+    legendContainer.style.display = "block";
+  } catch (err) {
+    console.error("Error rendering legend:", err);
+  }
 
   const maxPr = Math.max(...graphData.nodes.map(n => n.pagerank), 0.001);
   const sortedNodes = [...graphData.nodes].sort((a, b) => b.pagerank - a.pagerank);
