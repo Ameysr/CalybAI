@@ -402,6 +402,16 @@ function renderGraph(graphData) {
       const pBtn = document.getElementById("physicsBtn");
       pBtn.classList.remove("active");
       pBtn.title = "Enable Physics Layout";
+      
+      // Auto-select the top Node on load and show its details
+      if (graphData.nodes.length > 0) {
+        const topNode = sortedNodes[0];
+        selectedNodeId = topNode.id;
+        network.selectNodes([topNode.id]);
+        showPaperDetail(topNode.id);
+        highlightNeighbors(topNode.id);
+      }
+      network.fit();
     }
   });
 }
@@ -680,8 +690,45 @@ async function showPaperDetail(pid) {
 }
 
 function hidePaperDetail() {
-  document.getElementById("detail-empty").style.display = "flex";
-  document.getElementById("detail-content").style.display = "none";
+  const emptyDiv = document.getElementById("detail-empty");
+  const contentDiv = document.getElementById("detail-content");
+  
+  if (currentGraph && currentGraph.nodes && currentGraph.nodes.length > 0) {
+    const sorted = [...currentGraph.nodes].sort((a, b) => b.pagerank - a.pagerank).slice(0, 3);
+    emptyDiv.innerHTML = `
+      <div class="empty-header">
+        <i data-lucide="sparkles" style="color:var(--color-accent-gold);width:18px;height:18px"></i>
+        <h3>Top Foundational Papers</h3>
+      </div>
+      <p style="font-size:12px;color:var(--text-secondary);margin-bottom:14px;text-align:center;">
+        Select any node in the graph, or explore one of these top papers to begin:
+      </p>
+      <div class="top-papers-list" style="display:flex;flex-direction:column;gap:8px;width:100%">
+        ${sorted.map((p, idx) => `
+          <div class="top-paper-card" onclick="jumpToGraphNode('${p.id}')" style="background:var(--bg-main);border:1px solid var(--border-color);border-radius:6px;padding:10px;cursor:pointer;transition:var(--transition-fast);display:flex;gap:10px;align-items:flex-start;text-align:left;">
+            <span style="font-size:11px;font-weight:700;color:var(--color-accent-gold);background:rgba(245,158,11,0.1);padding:2px 6px;border-radius:4px;">#${idx+1}</span>
+            <div style="flex:1; overflow:hidden;">
+              <div style="font-size:12px;font-weight:600;color:var(--text-primary);line-height:1.3;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.title}</div>
+              <div style="font-size:10px;color:var(--text-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${(p.authors || "Unknown")} &bull; ${p.year}</div>
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    `;
+    lucide.createIcons();
+  } else {
+    emptyDiv.innerHTML = `
+      <div class="empty-icon"><i data-lucide="mouse-pointer-click"></i></div>
+      <p>Select a node in the citation graph to view papers, authors, citations, and connection analysis.</p>
+    `;
+    lucide.createIcons();
+  }
+  
+  emptyDiv.style.display = "flex";
+  emptyDiv.style.flexDirection = "column";
+  emptyDiv.style.alignItems = "center";
+  emptyDiv.style.justifyContent = "center";
+  contentDiv.style.display = "none";
 }
 
 async function loadReading() {

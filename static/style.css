@@ -342,7 +342,7 @@ main {
 .graph-controls-overlay {
   position: absolute;
   bottom: 24px;
-  left: 24px;
+  right: 24px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -429,6 +429,26 @@ main {
 #detail-empty p {
   font-size: 13px;
   line-height: 1.6;
+}
+
+.empty-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.empty-header h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.top-paper-card:hover {
+  border-color: rgba(245, 158, 11, 0.4) !important;
+  background: var(--bg-surface-hover) !important;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 /* Detail Content Details */
