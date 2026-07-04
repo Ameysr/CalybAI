@@ -258,9 +258,9 @@ function renderGraph(graphData) {
 
   // Network event handlers
   network.on("click", params => {
-    if (params.nodes.length > 0) {
-      const pid = params.nodes[0];
-      if (selectedNodeId === pid) {
+    const clickedNodeId = network.getNodeAt(params.pointer.DOM);
+    if (clickedNodeId !== undefined) {
+      if (selectedNodeId === clickedNodeId) {
         // Clicked the already selected node -> deselect and zoom out to fit all
         selectedNodeId = null;
         hidePaperDetail();
@@ -268,20 +268,20 @@ function renderGraph(graphData) {
         network.unselectNodes();
         network.fit({ animation: { duration: 800, easingFunction: "easeInOutQuad" } });
       } else {
-        selectedNodeId = pid;
-        showPaperDetail(pid);
-        highlightNeighbors(pid);
+        selectedNodeId = clickedNodeId;
+        showPaperDetail(clickedNodeId);
+        highlightNeighbors(clickedNodeId);
         
-        const connectedNodes = network.getConnectedNodes(pid);
+        const connectedNodes = network.getConnectedNodes(clickedNodeId);
         if (connectedNodes.length > 1) {
           // Fit the node and all its connected neighbors in view
           network.fit({
-            nodes: [pid, ...connectedNodes],
+            nodes: [clickedNodeId, ...connectedNodes],
             animation: { duration: 800, easingFunction: "easeInOutQuad" }
           });
         } else {
           // Moderate focus for isolated nodes so it doesn't zoom too far in
-          network.focus(pid, {
+          network.focus(clickedNodeId, {
             scale: 0.75,
             animation: { duration: 800, easingFunction: "easeInOutQuad" }
           });
