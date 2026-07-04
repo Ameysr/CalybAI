@@ -1,56 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CalybAI — Research Paper Onboarding</title>
-<link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CalybAI — Research Paper Onboarding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-<div id="app">
-  <header>
-    <h1>CalybAI</h1>
-    <div class="controls">
-      <input id="topicInput" value="Retrieval Augmented Generation" placeholder="Research topic">
-      <input id="targetInput" type="number" value="80" min="20" max="200" title="Target papers">
-      <button id="runBtn">Run Analysis</button>
-      <button id="exportCsvBtn" disabled>CSV</button>
-      <button id="exportJsonBtn" disabled>JSON</button>
+  <div id="app">
+    <header>
+      <div class="brand">
+        <div class="logo-icon">
+          <i data-lucide="brain-circuit"></i>
+        </div>
+        <div class="logo-text">
+          <h1>CalybAI</h1>
+          <span class="tagline">Research Paper Onboarding</span>
+        </div>
+      </div>
+      
+      <div class="controls-wrapper">
+        <div class="input-group">
+          <i data-lucide="search" class="input-icon"></i>
+          <input id="topicInput" value="Retrieval Augmented Generation" placeholder="Enter research topic...">
+        </div>
+        <div class="input-group width-narrow">
+          <i data-lucide="layers" class="input-icon"></i>
+          <input id="targetInput" type="number" value="80" min="20" max="200" title="Target papers" placeholder="Target">
+        </div>
+        <button id="runBtn" class="btn btn-primary">
+          <i data-lucide="play"></i>
+          <span>Run Analysis</span>
+        </button>
+        <div class="divider"></div>
+        <button id="exportCsvBtn" class="btn btn-secondary" disabled>
+          <i data-lucide="download"></i>
+          <span>CSV</span>
+        </button>
+        <button id="exportJsonBtn" class="btn btn-secondary" disabled>
+          <i data-lucide="file-json"></i>
+          <span>JSON</span>
+        </button>
+      </div>
+      
+      <div class="status-wrapper">
+        <div id="statusBar">
+          <span class="status-dot"></span>
+          <span class="status-text">No analysis loaded</span>
+        </div>
+      </div>
+    </header>
+
+    <nav id="tabs">
+      <button class="tab active" data-tab="graph">
+        <i data-lucide="network"></i>
+        <span>Citation Graph</span>
+      </button>
+      <button class="tab" data-tab="reading">
+        <i data-lucide="book-open"></i>
+        <span>Reading Curriculum</span>
+      </button>
+      <button class="tab" data-tab="stats">
+        <i data-lucide="bar-chart-3"></i>
+        <span>Network Insights</span>
+      </button>
+    </nav>
+
+    <main>
+      <section id="tab-graph" class="tab-content active">
+        <div class="graph-viewport">
+          <div id="graph-container"></div>
+          <!-- Graph overlay controls -->
+          <div class="graph-controls-overlay">
+            <button id="zoomInBtn" title="Zoom In"><i data-lucide="zoom-in"></i></button>
+            <button id="zoomOutBtn" title="Zoom Out"><i data-lucide="zoom-out"></i></button>
+            <button id="zoomFitBtn" title="Fit Network"><i data-lucide="expand"></i></button>
+            <button id="physicsBtn" class="active" title="Toggle Physics Layout"><i data-lucide="zap"></i></button>
+          </div>
+        </div>
+        
+        <aside id="detail-panel">
+          <div id="detail-empty">
+            <div class="empty-icon"><i data-lucide="mouse-pointer-click"></i></div>
+            <p>Select a node in the citation graph to view papers, authors, citations, and connection analysis.</p>
+          </div>
+          <div id="detail-content" style="display:none"></div>
+        </aside>
+      </section>
+
+      <section id="tab-reading" class="tab-content">
+        <div class="reading-container">
+          <div class="reading-header-dashboard">
+            <div class="dashboard-text">
+              <h2>Reading Curriculum</h2>
+              <p>Your curated, sequence-ordered reading list optimized by citation dependencies and academic influence.</p>
+            </div>
+            <div class="progress-card">
+              <div class="progress-info">
+                <span class="progress-label">Reading Progress</span>
+                <span id="progress-percent" class="progress-val">0%</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%"></div>
+              </div>
+              <span id="progress-stats-text" class="progress-sub">0 of 0 papers read</span>
+            </div>
+          </div>
+          <div id="reading-list"></div>
+        </div>
+      </section>
+
+      <section id="tab-stats" class="tab-content">
+        <div id="stats-content"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="spinner" style="display:none">
+    <div class="spinner-card">
+      <div class="spinner"></div>
+      <h3>Analyzing Network</h3>
+      <p id="spinner-msg">Crawling papers, extracting reference paths, and calculating citation metrics...</p>
     </div>
-    <div id="statusBar">No analysis loaded</div>
-  </header>
+  </div>
 
-  <nav id="tabs">
-    <button class="tab active" data-tab="graph">Graph</button>
-    <button class="tab" data-tab="reading">Reading List</button>
-    <button class="tab" data-tab="stats">Stats</button>
-  </nav>
-
-  <main>
-    <section id="tab-graph" class="tab-content active">
-      <div id="graph-container"></div>
-      <aside id="detail-panel">
-        <div id="detail-empty">Click a paper node to see details</div>
-        <div id="detail-content" style="display:none"></div>
-      </aside>
-    </section>
-
-    <section id="tab-reading" class="tab-content">
-      <div id="reading-list"></div>
-    </section>
-
-    <section id="tab-stats" class="tab-content">
-      <div id="stats-content"></div>
-    </section>
-  </main>
-</div>
-
-<div id="spinner" style="display:none">
-  <div class="spinner"></div>
-  <p>Crawling papers and analyzing...</p>
-</div>
-
-<script src="https://unpkg.com/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
-<script src="/static/app.js"></script>
+  <!-- Vis Network for Graph Drawing -->
+  <script src="https://unpkg.com/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
+  <!-- Lucide Icons for clean look -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Custom Application Script -->
+  <script src="/static/app.js"></script>
 </body>
 </html>
