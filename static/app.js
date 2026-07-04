@@ -265,7 +265,7 @@ function renderGraph(graphData) {
         selectedNodeId = null;
         hidePaperDetail();
         resetHighlighting();
-        network.unselectNodes();
+        network.unselectAll();
         network.fit({ animation: { duration: 800, easingFunction: "easeInOutQuad" } });
       } else {
         selectedNodeId = clickedNodeId;
