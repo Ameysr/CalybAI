@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   checkStatus();
 
   document.getElementById("runBtn").addEventListener("click", runAnalysis);
-  document.getElementById("exportBtn").addEventListener("click", exportCSV);
+  document.getElementById("exportCsvBtn").addEventListener("click", () => exportFile("csv"));
+  document.getElementById("exportJsonBtn").addEventListener("click", () => exportFile("json"));
 
   document.querySelectorAll(".tab").forEach(t => {
     t.addEventListener("click", () => switchTab(t.dataset.tab));
@@ -22,16 +23,37 @@ async function checkStatus() {
     const s = await r.json();
     if (s.loaded) {
       setStatus(`Loaded: ${s.topic} — ${s.stats.node_count} papers, ${s.stats.edge_count} edges`);
-      document.getElementById("exportBtn").disabled = false;
-      loadGraph();
-      loadReading();
-      loadStats();
+      enableExports();
+      await Promise.all([loadGraph(), loadReading(), loadStats()]);
     }
   } catch {}
 }
 
-function setStatus(msg) {
-  document.getElementById("statusBar").textContent = msg;
+function setStatus(msg, isError) {
+  const el = document.getElementById("statusBar");
+  el.textContent = msg;
+  el.style.color = isError ? "#f87171" : "#94a3b8";
+}
+
+function enableExports() {
+  document.getElementById("exportCsvBtn").disabled = false;
+  document.getElementById("exportJsonBtn").disabled = false;
+}
+
+function showToast(msg, isError) {
+  const existing = document.querySelector(".toast");
+  if (existing) existing.remove();
+  const div = document.createElement("div");
+  div.className = "toast";
+  div.textContent = msg;
+  Object.assign(div.style, {
+    position: "fixed", bottom: "20px", right: "20px", padding: "12px 20px",
+    borderRadius: "6px", color: "#fff", fontSize: "13px", zIndex: 200,
+    background: isError ? "#ef4444" : "#22c55e",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.2)", transition: "opacity 0.3s",
+  });
+  document.body.appendChild(div);
+  setTimeout(() => { div.style.opacity = "0"; setTimeout(() => div.remove(), 300); }, 3000);
 }
 
 function showSpinner(v) {
@@ -41,10 +63,10 @@ function showSpinner(v) {
 async function runAnalysis() {
   const topic = document.getElementById("topicInput").value.trim();
   const target = parseInt(document.getElementById("targetInput").value) || 80;
-  if (!topic) return alert("Enter a topic");
+  if (!topic) return showToast("Enter a topic", true);
 
   showSpinner(true);
-  setStatus("Running analysis...");
+  setStatus("Crawling " + topic + "...");
 
   try {
     const r = await fetch("/api/run", {
@@ -52,16 +74,20 @@ async function runAnalysis() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ topic, target }),
     });
+    if (!r.ok) {
+      const err = await r.json();
+      throw new Error(err.detail || "Analysis failed");
+    }
     const data = await r.json();
-    if (data.status !== "ok") throw new Error(data.detail || "Failed");
-
-    setStatus(`Loaded: ${data.topic} — ${data.stats.node_count} papers, ${data.stats.edge_count} edges`);
-    document.getElementById("exportBtn").disabled = false;
+    const s = data.stats;
+    setStatus(`Loaded: ${data.topic} — ${s.node_count} papers, ${s.edge_count} edges`);
+    enableExports();
+    showToast(`Analysis complete: ${s.node_count} papers, ${s.edge_count} citation edges`);
     await Promise.all([loadGraph(), loadReading(), loadStats()]);
     switchTab("graph");
   } catch (e) {
-    setStatus("Error: " + e.message);
-    alert("Error: " + e.message);
+    setStatus("Error: " + e.message, true);
+    showToast(e.message, true);
   } finally {
     showSpinner(false);
   }
@@ -70,9 +96,8 @@ async function runAnalysis() {
 async function loadGraph() {
   try {
     const r = await fetch("/api/graph");
-    const data = await r.json();
-    currentGraph = data;
-    renderGraph(data);
+    currentGraph = await r.json();
+    renderGraph(currentGraph);
   } catch {}
 }
 
@@ -81,7 +106,6 @@ function renderGraph(graphData) {
   container.innerHTML = "";
 
   const maxPr = Math.max(...graphData.nodes.map(n => n.pagerank), 0.001);
-  const communities = [...new Set(graphData.nodes.map(n => n.community))];
   const palette = ["#3b82f6","#ef4444","#22c55e","#f59e0b","#8b5cf6","#ec4899","#14b8a6","#f97316"];
 
   const nodes = new vis.DataSet(graphData.nodes.map(n => ({
@@ -92,7 +116,6 @@ function renderGraph(graphData) {
     color: { background: palette[n.community % palette.length], border: "#1e293b" },
     borderWidth: 1,
     font: { size: 10 },
-    group: n.community,
   })));
 
   const edges = new vis.DataSet(graphData.edges.map(e => ({
@@ -107,12 +130,11 @@ function renderGraph(graphData) {
     physics: { solver: "forceAtlas2Based", stabilization: { iterations: 150 } },
     interaction: { hover: true, tooltipDelay: 200 },
     edges: { smooth: { type: "continuous" } },
-    groups: communities.length <= 8 ? undefined : undefined,
   };
 
   network = new vis.Network(container, { nodes, edges }, options);
 
-  network.on("click", function(params) {
+  network.on("click", params => {
     if (params.nodes.length > 0) {
       showPaperDetail(params.nodes[0]);
     } else {
@@ -128,7 +150,7 @@ async function showPaperDetail(pid) {
     const div = document.getElementById("detail-content");
     const empty = document.getElementById("detail-empty");
 
-    const badge = p.pagerank > 0.01 ? '<span class="badge badge-foundational">Foundational</span>' : "";
+    const badge = p.pagerank > 0.01 ? '<span class="badge badge-foundational">High Influence</span>' : "";
     div.innerHTML = `
       <h3>${p.title}</h3>
       <div class="meta">
@@ -141,7 +163,7 @@ async function showPaperDetail(pid) {
       <div style="font-size:12px;color:#475569;line-height:1.6">
         <p><strong>In-degree:</strong> ${p.in_degree} papers cite this</p>
         <p><strong>Out-degree:</strong> ${p.out_degree} references</p>
-        <p style="word-break:break-all;font-size:11px;margin-top:8px">${p.id}</p>
+        <p style="word-break:break-all;font-size:11px;margin-top:8px;color:#94a3b8">${p.id.replace("https://openalex.org/", "")}</p>
       </div>
     `;
     empty.style.display = "none";
@@ -168,7 +190,7 @@ async function loadReading() {
     const survIds = new Set(surv.map(s => s.id));
 
     const list = document.getElementById("reading-list");
-    list.innerHTML = ro.slice(0, 100).map(p => {
+    list.innerHTML = ro.slice(0, 200).map(p => {
       const badges = [];
       if (foundIds.has(p.id)) badges.push('<span class="badge badge-foundational">Foundational</span>');
       if (survIds.has(p.id)) badges.push('<span class="badge badge-survey">Survey</span>');
@@ -202,7 +224,7 @@ async function loadStats() {
       <div class="stat-card">
         <div class="stat-grid">
           <div class="stat-item"><div class="value">${s.node_count}</div><div class="label">Papers</div></div>
-          <div class="stat-item"><div class="value">${s.edge_count}</div><div class="label">Citations</div></div>
+          <div class="stat-item"><div class="value">${s.edge_count}</div><div class="label">Citation Edges</div></div>
           <div class="stat-item"><div class="value">${s.density}</div><div class="label">Density</div></div>
           <div class="stat-item"><div class="value">${s.clustering}</div><div class="label">Clustering</div></div>
         </div>
@@ -210,22 +232,22 @@ async function loadStats() {
 
       <div class="stat-card">
         <h3>Top by PageRank (Influence)</h3>
-        ${topPr.map(p => `<div style="padding:4px 0;font-size:13px"><strong>[${p.year}]</strong> ${p.title.slice(0,70)} <span style="color:#64748b">— PR=${p.pagerank}</span></div>`).join("")}
+        ${topPr.map(p => `<div style="padding:4px 0;font-size:13px"><strong>[${p.year}]</strong> ${(p.title || "?").slice(0, 70)} <span style="color:#64748b">— PR=${p.pagerank}</span></div>`).join("")}
       </div>
 
       <div class="stat-card">
         <h3>Top by Citation Count</h3>
-        ${topCit.map(p => `<div style="padding:4px 0;font-size:13px"><strong>[${p.year}]</strong> ${p.title.slice(0,70)} <span style="color:#64748b">— ${p.citations} cites</span></div>`).join("")}
+        ${topCit.map(p => `<div style="padding:4px 0;font-size:13px"><strong>[${p.year}]</strong> ${(p.title || "?").slice(0, 70)} <span style="color:#64748b">— ${p.citations} cites</span></div>`).join("")}
       </div>
 
       <div class="stat-card">
         <h3>Foundational Papers</h3>
-        ${foundR.map(p => `<div style="padding:4px 0;font-size:13px"><strong>[${p.year}]</strong> ${p.title.slice(0,70)} <span style="color:#64748b">— PR=${p.pagerank}</span></div>`).join("")}
+        ${foundR.map(p => `<div style="padding:4px 0;font-size:13px"><strong>[${p.year}]</strong> ${(p.title || "?").slice(0, 70)} <span style="color:#64748b">— PR=${p.pagerank}</span></div>`).join("")}
       </div>
 
       <div class="stat-card">
         <h3>Survey Papers</h3>
-        ${survR.map(p => `<div style="padding:4px 0;font-size:13px"><strong>[${p.year}]</strong> ${p.title.slice(0,70)} <span style="color:#64748b">— ${p.out_degree} refs</span></div>`).join("")}
+        ${survR.map(p => `<div style="padding:4px 0;font-size:13px"><strong>[${p.year}]</strong> ${(p.title || "?").slice(0, 70)} <span style="color:#64748b">— ${p.out_degree} refs</span></div>`).join("")}
       </div>
     `;
   } catch {}
@@ -234,9 +256,11 @@ async function loadStats() {
 function switchTab(name) {
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.tab === name));
   document.querySelectorAll(".tab-content").forEach(t => t.classList.toggle("active", t.id === "tab-" + name));
-  if (name === "graph" && network) network.fit();
+  if (name === "graph" && network) {
+    setTimeout(() => network.fit(), 100);
+  }
 }
 
-function exportCSV() {
-  window.open("/api/export.csv", "_blank");
+function exportFile(fmt) {
+  window.open(`/api/export.${fmt}`, "_blank");
 }

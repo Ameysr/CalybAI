@@ -76,6 +76,17 @@ async def export_csv():
     return Response(content="\n".join(lines), media_type="text/csv",
                     headers={"Content-Disposition": "attachment; filename=reading_order.csv"})
 
+@app.get("/api/export.json")
+async def export_json():
+    c = _get_cache()
+    return {
+        "topic": c["topic"],
+        "stats": c["stats"],
+        "reading_order": c["reading_order"],
+        "foundational": c["foundational"],
+        "surveys": c["surveys"],
+    }
+
 @app.get("/", response_class=HTMLResponse)
 async def index():
     html = (static_dir / "index.html").read_text(encoding="utf-8")
