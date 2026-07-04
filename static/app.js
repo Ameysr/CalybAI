@@ -160,10 +160,14 @@ function renderGraph(graphData) {
   container.innerHTML = "";
 
   const maxPr = Math.max(...graphData.nodes.map(n => n.pagerank), 0.001);
+  const sortedNodes = [...graphData.nodes].sort((a, b) => b.pagerank - a.pagerank);
+  const importantIds = new Set(sortedNodes.slice(0, 15).map(n => n.id));
 
   // Structure Vis data sets
   nodesDataSet = new vis.DataSet(graphData.nodes.map(n => {
     const nodeColor = getCommunityColor(n.community);
+    const isImportant = importantIds.has(n.id);
+    const displayName = isImportant ? ((n.title || "?").slice(0, 22) + ((n.title || "").length > 22 ? "..." : "")) : "";
     
     // Custom rich HTML tooltip matching the warm academic theme
     const tooltipEl = document.createElement("div");
@@ -179,7 +183,7 @@ function renderGraph(graphData) {
     return {
       id: n.id,
       shape: "dot",
-      label: (n.title || "?").slice(0, 24) + ((n.title || "").length > 24 ? "..." : ""),
+      label: displayName,
       title: tooltipEl,
       size: 10 + 26 * Math.sqrt(n.pagerank / maxPr),
       color: {
@@ -232,10 +236,11 @@ function renderGraph(graphData) {
     physics: {
       solver: "forceAtlas2Based",
       forceAtlas2Based: {
-        gravitationalConstant: -36,
-        centralGravity: 0.015,
-        springLength: 80,
-        springConstant: 0.08
+        gravitationalConstant: -50,
+        centralGravity: 0.01,
+        springLength: 130, // Push nodes further apart so labels don't collide
+        springConstant: 0.07,
+        avoidOverlap: 1.0 // Force Vis.js to keep nodes separated
       },
       stabilization: {
         iterations: 150,
@@ -269,6 +274,37 @@ function renderGraph(graphData) {
     }
   });
 
+  network.on("hoverNode", params => {
+    const nodeId = params.node;
+    if (selectedNodeId === null) {
+      const originalNode = currentGraph.nodes.find(n => n.id === nodeId);
+      if (originalNode) {
+        nodesDataSet.update({
+          id: nodeId,
+          label: originalNode.title,
+          font: { color: "#ffffff", size: 12, strokeWidth: 3 }
+        });
+      }
+    }
+  });
+
+  network.on("blurNode", params => {
+    const nodeId = params.node;
+    if (selectedNodeId === null) {
+      const originalNode = currentGraph.nodes.find(n => n.id === nodeId);
+      if (originalNode) {
+        const sorted = [...currentGraph.nodes].sort((a, b) => b.pagerank - a.pagerank);
+        const topIds = new Set(sorted.slice(0, 15).map(n => n.id));
+        const isImportant = topIds.has(nodeId);
+        nodesDataSet.update({
+          id: nodeId,
+          label: isImportant ? ((originalNode.title || "?").slice(0, 22) + ((originalNode.title || "").length > 22 ? "..." : "")) : "",
+          font: { color: "#c5c1bb", size: 11, strokeWidth: 2 }
+        });
+      }
+    }
+  });
+
   network.on("stabilizationIterationsDone", () => {
     // Once graph stabilizes, turn off physics to optimize performance
     if (physicsEnabled) {
@@ -295,7 +331,7 @@ function togglePhysics() {
   }
 }
 
-// Highlight connected nodes and edges, dim others
+// Highlight connected nodes and edges, dim others, and highlight local labels
 function highlightNeighbors(selectedId) {
   const connectedNodes = network.getConnectedNodes(selectedId);
   const connectedEdges = network.getConnectedEdges(selectedId);
@@ -309,23 +345,28 @@ function highlightNeighbors(selectedId) {
   allNodes.forEach(node => {
     const isSelected = node.id === selectedId;
     const isNeighbor = connectedNodes.includes(node.id);
+    const originalNode = currentGraph.nodes.find(n => n.id === node.id);
+    const nodeTitle = originalNode ? originalNode.title : "";
     
     if (isSelected) {
       updateNodes.push({
         id: node.id,
+        label: nodeTitle,
         color: { border: "#ffffff" },
-        font: { color: "#ffffff", size: 12 }
+        font: { color: "#ffffff", size: 13, strokeWidth: 3 }
       });
     } else if (isNeighbor) {
       updateNodes.push({
         id: node.id,
+        label: nodeTitle.slice(0, 24) + (nodeTitle.length > 24 ? "..." : ""),
         color: { opacity: 1.0 },
-        font: { color: "#f5f4f2", size: 11 }
+        font: { color: "#f5f4f2", size: 11, strokeWidth: 2 }
       });
     } else {
-      // Dim non-neighbors
+      // Dim non-neighbors and hide label entirely
       updateNodes.push({
         id: node.id,
+        label: "",
         color: {
           background: "rgba(30, 27, 24, 0.25)",
           border: "rgba(65, 59, 52, 0.15)"
@@ -360,18 +401,24 @@ function resetHighlighting() {
   if (!currentGraph || !nodesDataSet || !edgesDataSet) return;
 
   const maxPr = Math.max(...currentGraph.nodes.map(n => n.pagerank), 0.001);
+  const sortedNodes = [...currentGraph.nodes].sort((a, b) => b.pagerank - a.pagerank);
+  const importantIds = new Set(sortedNodes.slice(0, 15).map(n => n.id));
   
   const originalNodes = currentGraph.nodes.map(n => {
     const nodeColor = getCommunityColor(n.community);
+    const isImportant = importantIds.has(n.id);
+    const displayName = isImportant ? ((n.title || "?").slice(0, 22) + ((n.title || "").length > 22 ? "..." : "")) : "";
+
     return {
       id: n.id,
+      label: displayName,
       color: {
         background: nodeColor,
         border: "rgba(10, 9, 8, 0.8)",
         highlight: { background: nodeColor, border: "#ffffff" },
         hover: { background: nodeColor, border: "#f59e0b" }
       },
-      font: { color: "#c5c1bb", size: 11 }
+      font: { color: "#c5c1bb", size: 11, strokeWidth: 2 }
     };
   });
 
