@@ -349,17 +349,29 @@ function highlightNeighbors(selectedId) {
     const nodeTitle = originalNode ? originalNode.title : "";
     
     if (isSelected) {
+      const baseColor = getCommunityColor(originalNode.community);
       updateNodes.push({
         id: node.id,
         label: nodeTitle,
-        color: { border: "#ffffff" },
+        color: {
+          background: baseColor,
+          border: "#ffffff",
+          highlight: { background: baseColor, border: "#ffffff" },
+          hover: { background: baseColor, border: "#ffffff" }
+        },
         font: { color: "#ffffff", size: 13, strokeWidth: 3 }
       });
     } else if (isNeighbor) {
+      const baseColor = getCommunityColor(originalNode.community);
       updateNodes.push({
         id: node.id,
         label: nodeTitle.slice(0, 24) + (nodeTitle.length > 24 ? "..." : ""),
-        color: { opacity: 1.0 },
+        color: {
+          background: baseColor,
+          border: "rgba(10, 9, 8, 0.8)",
+          highlight: { background: baseColor, border: "#ffffff" },
+          hover: { background: baseColor, border: "#f59e0b" }
+        },
         font: { color: "#f5f4f2", size: 11, strokeWidth: 2 }
       });
     } else {
