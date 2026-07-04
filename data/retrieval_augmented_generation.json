@@ -3301,669 +3301,6 @@
         "https://openalex.org/W3151369355"
       ]
     },
-    "https://openalex.org/W2898875342": {
-      "id": "https://openalex.org/W2898875342",
-      "title": "Wizard of Wikipedia: Knowledge-Powered Conversational agents",
-      "year": 2018,
-      "authors": "Emily Dinan, Stephen Roller, Kurt Shuster et al.",
-      "cited_by_count": 481,
-      "referenced_works": [
-        "https://openalex.org/W1591706642",
-        "https://openalex.org/W2251058040",
-        "https://openalex.org/W2340944142",
-        "https://openalex.org/W2427527485",
-        "https://openalex.org/W2550893117",
-        "https://openalex.org/W2557436004",
-        "https://openalex.org/W2611029872",
-        "https://openalex.org/W2626778328",
-        "https://openalex.org/W2755957574",
-        "https://openalex.org/W2784400615",
-        "https://openalex.org/W2794557536",
-        "https://openalex.org/W2888302696",
-        "https://openalex.org/W2891103209",
-        "https://openalex.org/W2949555952",
-        "https://openalex.org/W2950902819",
-        "https://openalex.org/W2951008357",
-        "https://openalex.org/W2951580200",
-        "https://openalex.org/W2951626663",
-        "https://openalex.org/W2953245949",
-        "https://openalex.org/W2962784628",
-        "https://openalex.org/W2964119254",
-        "https://openalex.org/W2964210218"
-      ]
-    },
-    "https://openalex.org/W2970476646": {
-      "id": "https://openalex.org/W2970476646",
-      "title": "Language Models as Knowledge Bases?",
-      "year": 2019,
-      "authors": "Fabio Petroni, Tim Rockt\u00e4schel, Sebastian Riedel et al.",
-      "cited_by_count": 1757,
-      "referenced_works": [
-        "https://openalex.org/W1529533208",
-        "https://openalex.org/W1566289585",
-        "https://openalex.org/W1591801644",
-        "https://openalex.org/W1854884267",
-        "https://openalex.org/W1999965501",
-        "https://openalex.org/W2064675550",
-        "https://openalex.org/W2127795553",
-        "https://openalex.org/W2250770256",
-        "https://openalex.org/W2251803266",
-        "https://openalex.org/W2567070169",
-        "https://openalex.org/W2756566873",
-        "https://openalex.org/W2785611959",
-        "https://openalex.org/W2888329843",
-        "https://openalex.org/W2888922637",
-        "https://openalex.org/W2896457183",
-        "https://openalex.org/W2897513296",
-        "https://openalex.org/W2898695519",
-        "https://openalex.org/W2910243263",
-        "https://openalex.org/W2911435132",
-        "https://openalex.org/W2912924812",
-        "https://openalex.org/W2923014074",
-        "https://openalex.org/W2948380112",
-        "https://openalex.org/W2951286828",
-        "https://openalex.org/W2953345635",
-        "https://openalex.org/W2962739339",
-        "https://openalex.org/W2962985038",
-        "https://openalex.org/W2963115613",
-        "https://openalex.org/W2963341956",
-        "https://openalex.org/W2963494889",
-        "https://openalex.org/W2963748441",
-        "https://openalex.org/W2963748792",
-        "https://openalex.org/W2963970792",
-        "https://openalex.org/W2963995027",
-        "https://openalex.org/W2964110616",
-        "https://openalex.org/W2964223283",
-        "https://openalex.org/W2964915587",
-        "https://openalex.org/W2998704965",
-        "https://openalex.org/W3121854931",
-        "https://openalex.org/W4285719527",
-        "https://openalex.org/W4288351520",
-        "https://openalex.org/W4288631803",
-        "https://openalex.org/W4298422451",
-        "https://openalex.org/W4300427683",
-        "https://openalex.org/W4385245566",
-        "https://openalex.org/W6603175991"
-      ]
-    },
-    "https://openalex.org/W3121904249": {
-      "id": "https://openalex.org/W3121904249",
-      "title": "Measuring Massive Multitask Language Understanding",
-      "year": 2021,
-      "authors": "Dan Hendrycks, Collin Burns, Steven Basart et al.",
-      "cited_by_count": 331,
-      "referenced_works": [
-        "https://openalex.org/W2125436846",
-        "https://openalex.org/W2145482038",
-        "https://openalex.org/W2404342324",
-        "https://openalex.org/W2606964149",
-        "https://openalex.org/W2626967530",
-        "https://openalex.org/W2890894339",
-        "https://openalex.org/W2904981516",
-        "https://openalex.org/W2950700477",
-        "https://openalex.org/W2963310665",
-        "https://openalex.org/W2963341956",
-        "https://openalex.org/W2965373594",
-        "https://openalex.org/W2970859221",
-        "https://openalex.org/W2990037398",
-        "https://openalex.org/W2990704537",
-        "https://openalex.org/W2996848635",
-        "https://openalex.org/W2998617917",
-        "https://openalex.org/W3001279689",
-        "https://openalex.org/W3015569920",
-        "https://openalex.org/W3016970897",
-        "https://openalex.org/W3030163527",
-        "https://openalex.org/W3080855795",
-        "https://openalex.org/W3082274269",
-        "https://openalex.org/W3099655892"
-      ]
-    },
-    "https://openalex.org/W3176182290": {
-      "id": "https://openalex.org/W3176182290",
-      "title": "Generation-Augmented Retrieval for Open-Domain Question Answering",
-      "year": 2021,
-      "authors": "Yuning Mao, Pengcheng He, Xiaodong Liu et al.",
-      "cited_by_count": 141,
-      "referenced_works": [
-        "https://openalex.org/W2117473841",
-        "https://openalex.org/W2142769902",
-        "https://openalex.org/W2148972377",
-        "https://openalex.org/W2164547069",
-        "https://openalex.org/W2593864460",
-        "https://openalex.org/W2740321901",
-        "https://openalex.org/W2912924812",
-        "https://openalex.org/W2913443447",
-        "https://openalex.org/W2951434086",
-        "https://openalex.org/W2951534261",
-        "https://openalex.org/W2962854379",
-        "https://openalex.org/W2962985038",
-        "https://openalex.org/W2963339397",
-        "https://openalex.org/W2963341956",
-        "https://openalex.org/W2963609889",
-        "https://openalex.org/W2964823609",
-        "https://openalex.org/W2970168256",
-        "https://openalex.org/W2982817792",
-        "https://openalex.org/W2989312920",
-        "https://openalex.org/W2990928880",
-        "https://openalex.org/W2995638926",
-        "https://openalex.org/W3007672467",
-        "https://openalex.org/W3015468748",
-        "https://openalex.org/W3021282678",
-        "https://openalex.org/W3022840849",
-        "https://openalex.org/W3027879771",
-        "https://openalex.org/W3034999214",
-        "https://openalex.org/W3035169992",
-        "https://openalex.org/W3039017601",
-        "https://openalex.org/W3043590089",
-        "https://openalex.org/W3094090968",
-        "https://openalex.org/W3099700870",
-        "https://openalex.org/W3100292568",
-        "https://openalex.org/W3102659883",
-        "https://openalex.org/W3115037692",
-        "https://openalex.org/W3118423943",
-        "https://openalex.org/W3130740619",
-        "https://openalex.org/W3153094109",
-        "https://openalex.org/W3156789018",
-        "https://openalex.org/W3157758108",
-        "https://openalex.org/W3175111331",
-        "https://openalex.org/W4292779060",
-        "https://openalex.org/W4299585995"
-      ]
-    },
-    "https://openalex.org/W3185341429": {
-      "id": "https://openalex.org/W3185341429",
-      "title": "Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing",
-      "year": 2022,
-      "authors": "Pengfei Liu, Weizhe Yuan, Jinlan Fu et al.",
-      "cited_by_count": 3628,
-      "referenced_works": [
-        "https://openalex.org/W102110531",
-        "https://openalex.org/W1832693441",
-        "https://openalex.org/W1873332500",
-        "https://openalex.org/W1934890906",
-        "https://openalex.org/W1982795016",
-        "https://openalex.org/W2064675550",
-        "https://openalex.org/W2083735344",
-        "https://openalex.org/W2100128988",
-        "https://openalex.org/W2120615054",
-        "https://openalex.org/W2121863487",
-        "https://openalex.org/W2130774920",
-        "https://openalex.org/W2143426320",
-        "https://openalex.org/W2143612262",
-        "https://openalex.org/W2163922914",
-        "https://openalex.org/W2166706824",
-        "https://openalex.org/W2250225488",
-        "https://openalex.org/W2250539671",
-        "https://openalex.org/W2467834614",
-        "https://openalex.org/W2510850444",
-        "https://openalex.org/W2524182563",
-        "https://openalex.org/W2559655401",
-        "https://openalex.org/W2560674852",
-        "https://openalex.org/W2598654328",
-        "https://openalex.org/W2601450892",
-        "https://openalex.org/W2606964149",
-        "https://openalex.org/W2608239929",
-        "https://openalex.org/W2610850660",
-        "https://openalex.org/W2612690371",
-        "https://openalex.org/W2739918945",
-        "https://openalex.org/W2744813330",
-        "https://openalex.org/W2759653627",
-        "https://openalex.org/W2771472444",
-        "https://openalex.org/W2796032388",
-        "https://openalex.org/W2798542795",
-        "https://openalex.org/W2809324505",
-        "https://openalex.org/W2948468976",
-        "https://openalex.org/W2950645060",
-        "https://openalex.org/W2952984539",
-        "https://openalex.org/W2962739339",
-        "https://openalex.org/W2962805889",
-        "https://openalex.org/W2962833140",
-        "https://openalex.org/W2962902328",
-        "https://openalex.org/W2963018920",
-        "https://openalex.org/W2963026768",
-        "https://openalex.org/W2963104691",
-        "https://openalex.org/W2963216553",
-        "https://openalex.org/W2963341956",
-        "https://openalex.org/W2963609889",
-        "https://openalex.org/W2963630207",
-        "https://openalex.org/W2963705779",
-        "https://openalex.org/W2963748441",
-        "https://openalex.org/W2963963993",
-        "https://openalex.org/W2964222246",
-        "https://openalex.org/W2965373594",
-        "https://openalex.org/W2970161131",
-        "https://openalex.org/W2970200208",
-        "https://openalex.org/W2970352191",
-        "https://openalex.org/W2970476646",
-        "https://openalex.org/W2970780738",
-        "https://openalex.org/W2973519210",
-        "https://openalex.org/W2981852735",
-        "https://openalex.org/W2982756474",
-        "https://openalex.org/W2986266667",
-        "https://openalex.org/W2989911337",
-        "https://openalex.org/W2990138404",
-        "https://openalex.org/W2997617958",
-        "https://openalex.org/W3004346089",
-        "https://openalex.org/W3005700362",
-        "https://openalex.org/W3007672467",
-        "https://openalex.org/W3013444301",
-        "https://openalex.org/W3034797437",
-        "https://openalex.org/W3034942609",
-        "https://openalex.org/W3034999214",
-        "https://openalex.org/W3035625205",
-        "https://openalex.org/W3041498386",
-        "https://openalex.org/W3044438666",
-        "https://openalex.org/W3092288641",
-        "https://openalex.org/W3092785544",
-        "https://openalex.org/W3096580779",
-        "https://openalex.org/W3098267758",
-        "https://openalex.org/W3098341425",
-        "https://openalex.org/W3099655892",
-        "https://openalex.org/W3099771192",
-        "https://openalex.org/W3102187933",
-        "https://openalex.org/W3104163040",
-        "https://openalex.org/W3104597016",
-        "https://openalex.org/W3122241445",
-        "https://openalex.org/W3141940864",
-        "https://openalex.org/W3153427360",
-        "https://openalex.org/W3153451655",
-        "https://openalex.org/W3154903254",
-        "https://openalex.org/W3156012351",
-        "https://openalex.org/W3156470785",
-        "https://openalex.org/W3160638507",
-        "https://openalex.org/W3166846774",
-        "https://openalex.org/W3166986030",
-        "https://openalex.org/W3167602185",
-        "https://openalex.org/W3170083118",
-        "https://openalex.org/W3170658419",
-        "https://openalex.org/W3172642864",
-        "https://openalex.org/W3173617765",
-        "https://openalex.org/W3173777717",
-        "https://openalex.org/W3174770825",
-        "https://openalex.org/W3174784402",
-        "https://openalex.org/W3175603587",
-        "https://openalex.org/W3176549752",
-        "https://openalex.org/W3182696977",
-        "https://openalex.org/W3194836374",
-        "https://openalex.org/W3199958362",
-        "https://openalex.org/W3211848854",
-        "https://openalex.org/W3212893438",
-        "https://openalex.org/W4205857304",
-        "https://openalex.org/W4205991051",
-        "https://openalex.org/W4206636317",
-        "https://openalex.org/W4225590069",
-        "https://openalex.org/W4287867774",
-        "https://openalex.org/W4288089799",
-        "https://openalex.org/W4293350112",
-        "https://openalex.org/W6735236233",
-        "https://openalex.org/W6964124353"
-      ]
-    },
-    "https://openalex.org/W3199958362": {
-      "id": "https://openalex.org/W3199958362",
-      "title": "How Can We Know <i>When</i> Language Models Know? On the Calibration of Language Models for Question Answering",
-      "year": 2021,
-      "authors": "Zhengbao Jiang, Jun Araki, Haibo Ding et al.",
-      "cited_by_count": 160,
-      "referenced_works": [
-        "https://openalex.org/W1618905105",
-        "https://openalex.org/W2061271742",
-        "https://openalex.org/W2112796928",
-        "https://openalex.org/W2137556846",
-        "https://openalex.org/W2295598076",
-        "https://openalex.org/W2557764419",
-        "https://openalex.org/W2606964149",
-        "https://openalex.org/W2612844088",
-        "https://openalex.org/W2794325560",
-        "https://openalex.org/W2805206884",
-        "https://openalex.org/W2890894339",
-        "https://openalex.org/W2945290257",
-        "https://openalex.org/W2946359678",
-        "https://openalex.org/W2946417913",
-        "https://openalex.org/W2950339735",
-        "https://openalex.org/W2962985038",
-        "https://openalex.org/W2963323070",
-        "https://openalex.org/W2963366552",
-        "https://openalex.org/W2963382396",
-        "https://openalex.org/W2963403868",
-        "https://openalex.org/W2963675284",
-        "https://openalex.org/W2963748441",
-        "https://openalex.org/W2963807318",
-        "https://openalex.org/W2970476646",
-        "https://openalex.org/W2970745243",
-        "https://openalex.org/W2981852735",
-        "https://openalex.org/W2986266667",
-        "https://openalex.org/W2987553933",
-        "https://openalex.org/W2996848635",
-        "https://openalex.org/W2996908057",
-        "https://openalex.org/W2998557616",
-        "https://openalex.org/W2998617917",
-        "https://openalex.org/W2998696444",
-        "https://openalex.org/W2998704965",
-        "https://openalex.org/W2999637955",
-        "https://openalex.org/W3001279689",
-        "https://openalex.org/W3007672467",
-        "https://openalex.org/W3008686018",
-        "https://openalex.org/W3012209028",
-        "https://openalex.org/W3020908159",
-        "https://openalex.org/W3021047975",
-        "https://openalex.org/W3021533447",
-        "https://openalex.org/W3027879771",
-        "https://openalex.org/W3030163527",
-        "https://openalex.org/W3034999214",
-        "https://openalex.org/W3035428952",
-        "https://openalex.org/W3037854022",
-        "https://openalex.org/W3044438666",
-        "https://openalex.org/W3083410900",
-        "https://openalex.org/W3099142828",
-        "https://openalex.org/W3099655892",
-        "https://openalex.org/W3100283070",
-        "https://openalex.org/W3102476541",
-        "https://openalex.org/W3102659883",
-        "https://openalex.org/W3103751997",
-        "https://openalex.org/W3104163040",
-        "https://openalex.org/W3104939451",
-        "https://openalex.org/W3111372685",
-        "https://openalex.org/W3121904249",
-        "https://openalex.org/W3169283738",
-        "https://openalex.org/W4285719527",
-        "https://openalex.org/W4288089799",
-        "https://openalex.org/W4292779060",
-        "https://openalex.org/W6636501900",
-        "https://openalex.org/W6678890848",
-        "https://openalex.org/W6680532216",
-        "https://openalex.org/W6687483927",
-        "https://openalex.org/W6739651123",
-        "https://openalex.org/W6739901393",
-        "https://openalex.org/W6745553787",
-        "https://openalex.org/W6749838110",
-        "https://openalex.org/W6750731723",
-        "https://openalex.org/W6752030624",
-        "https://openalex.org/W6752089009",
-        "https://openalex.org/W6755207826",
-        "https://openalex.org/W6755829550",
-        "https://openalex.org/W6761197728",
-        "https://openalex.org/W6762537594",
-        "https://openalex.org/W6767529285",
-        "https://openalex.org/W6769627184",
-        "https://openalex.org/W6772383348",
-        "https://openalex.org/W6772825485",
-        "https://openalex.org/W6774167476",
-        "https://openalex.org/W6774222543",
-        "https://openalex.org/W6775100569",
-        "https://openalex.org/W6776231494",
-        "https://openalex.org/W6776238819",
-        "https://openalex.org/W6776253692",
-        "https://openalex.org/W6777166213",
-        "https://openalex.org/W6777615688",
-        "https://openalex.org/W6778883912",
-        "https://openalex.org/W6779707491",
-        "https://openalex.org/W6779791889",
-        "https://openalex.org/W6782879696"
-      ]
-    },
-    "https://openalex.org/W4221152111": {
-      "id": "https://openalex.org/W4221152111",
-      "title": "Internet-augmented language models through few-shot prompting for open-domain question answering",
-      "year": 2022,
-      "authors": "Angeliki Lazaridou, Elena Gribovskaya, Wojciech Stokowiec et al.",
-      "cited_by_count": 64,
-      "referenced_works": []
-    },
-    "https://openalex.org/W4226278401": {
-      "id": "https://openalex.org/W4226278401",
-      "title": "Training language models to follow instructions with human feedback",
-      "year": 2022,
-      "authors": "Long Ouyang, Jeff Wu, Xu Jiang et al.",
-      "cited_by_count": 4296,
-      "referenced_works": []
-    },
-    "https://openalex.org/W4312091845": {
-      "id": "https://openalex.org/W4312091845",
-      "title": "Interleaving Retrieval with Chain-of-Thought Reasoning for Knowledge-Intensive Multi-Step Questions",
-      "year": 2022,
-      "authors": "Harsh Trivedi, Niranjan Balasubramanian, Tushar Khot et al.",
-      "cited_by_count": 18,
-      "referenced_works": []
-    },
-    "https://openalex.org/W4318719006": {
-      "id": "https://openalex.org/W4318719006",
-      "title": "REPLUG: Retrieval-Augmented Black-Box Language Models",
-      "year": 2023,
-      "authors": "Weijia Shi, Sewon Min, Michihiro Yasunaga et al.",
-      "cited_by_count": 68,
-      "referenced_works": []
-    },
-    "https://openalex.org/W4322718191": {
-      "id": "https://openalex.org/W4322718191",
-      "title": "LLaMA: Open and Efficient Foundation Language Models",
-      "year": 2023,
-      "authors": "Hugo Touvron, Thibaut Lavril, Gautier Izacard et al.",
-      "cited_by_count": 3913,
-      "referenced_works": []
-    },
-    "https://openalex.org/W4322718421": {
-      "id": "https://openalex.org/W4322718421",
-      "title": "Check Your Facts and Try Again: Improving Large Language Models with External Knowledge and Automated Feedback",
-      "year": 2023,
-      "authors": "Baolin Peng, Michel Galley, Pengcheng He et al.",
-      "cited_by_count": 147,
-      "referenced_works": []
-    },
-    "https://openalex.org/W2963521540": {
-      "id": "https://openalex.org/W2963521540",
-      "title": "Skeleton-to-Response: Dialogue Generation Guided by Retrieval Memory",
-      "year": 2019,
-      "authors": "Deng Cai, Yan Wang, Wei Bi et al.",
-      "cited_by_count": 64,
-      "referenced_works": [
-        "https://openalex.org/W295828404",
-        "https://openalex.org/W1518951372",
-        "https://openalex.org/W1591706642",
-        "https://openalex.org/W1902237438",
-        "https://openalex.org/W1958706068",
-        "https://openalex.org/W1970026646",
-        "https://openalex.org/W2095705004",
-        "https://openalex.org/W2099471712",
-        "https://openalex.org/W2119717200",
-        "https://openalex.org/W2133564696",
-        "https://openalex.org/W2159640018",
-        "https://openalex.org/W2161466446",
-        "https://openalex.org/W2170738476",
-        "https://openalex.org/W2399880602",
-        "https://openalex.org/W2521114121",
-        "https://openalex.org/W2539809671",
-        "https://openalex.org/W2586847566",
-        "https://openalex.org/W2593696076",
-        "https://openalex.org/W2605246398",
-        "https://openalex.org/W2611714756",
-        "https://openalex.org/W2740258984",
-        "https://openalex.org/W2795601629",
-        "https://openalex.org/W2798463315",
-        "https://openalex.org/W2798970679",
-        "https://openalex.org/W2801454967",
-        "https://openalex.org/W2807873315",
-        "https://openalex.org/W2885421725",
-        "https://openalex.org/W2897139265",
-        "https://openalex.org/W2950902819",
-        "https://openalex.org/W2951359136",
-        "https://openalex.org/W2962717182",
-        "https://openalex.org/W2962883855",
-        "https://openalex.org/W2962985882",
-        "https://openalex.org/W2963034998",
-        "https://openalex.org/W2963035145",
-        "https://openalex.org/W2963206148",
-        "https://openalex.org/W2963371754",
-        "https://openalex.org/W2963411289",
-        "https://openalex.org/W2963790827",
-        "https://openalex.org/W2963958388",
-        "https://openalex.org/W2963963856",
-        "https://openalex.org/W2964308564",
-        "https://openalex.org/W2964352131",
-        "https://openalex.org/W3022187094",
-        "https://openalex.org/W4230563027",
-        "https://openalex.org/W4300125564",
-        "https://openalex.org/W6635590879",
-        "https://openalex.org/W6642850889",
-        "https://openalex.org/W6698480918",
-        "https://openalex.org/W6727329663"
-      ]
-    },
-    "https://openalex.org/W4226082499": {
-      "id": "https://openalex.org/W4226082499",
-      "title": "Improving language models by retrieving from trillions of tokens",
-      "year": 2021,
-      "authors": "Sebastian Borgeaud, Arthur Mensch, Jordan Hoffmann et al.",
-      "cited_by_count": 298,
-      "referenced_works": []
-    },
-    "https://openalex.org/W4319793302": {
-      "id": "https://openalex.org/W4319793302",
-      "title": "A Multitask, Multilingual, Multimodal Evaluation of ChatGPT on Reasoning, Hallucination, and Interactivity",
-      "year": 2023,
-      "authors": "Yejin Bang, Samuel Cahyawijaya, Nayeon Lee et al.",
-      "cited_by_count": 355,
-      "referenced_works": []
-    },
-    "https://openalex.org/W2896457183": {
-      "id": "https://openalex.org/W2896457183",
-      "title": "AI-Assisted Pipeline for Dynamic Generation of Trustworthy Health Supplement Content at Scale",
-      "year": 2018,
-      "authors": "Devlin, Jacob, Chang, Ming-Wei, Lee, Kenton et al.",
-      "cited_by_count": 45710,
-      "referenced_works": [
-        "https://openalex.org/W131533222",
-        "https://openalex.org/W1486649854",
-        "https://openalex.org/W1599016936",
-        "https://openalex.org/W1840435438",
-        "https://openalex.org/W2025768430",
-        "https://openalex.org/W2108598243",
-        "https://openalex.org/W2117130368",
-        "https://openalex.org/W2121227244",
-        "https://openalex.org/W2130158090",
-        "https://openalex.org/W2130903752",
-        "https://openalex.org/W2131462252",
-        "https://openalex.org/W2131744502",
-        "https://openalex.org/W2144578941",
-        "https://openalex.org/W2149933564",
-        "https://openalex.org/W2153579005",
-        "https://openalex.org/W2158108973",
-        "https://openalex.org/W2158139315",
-        "https://openalex.org/W2170973209",
-        "https://openalex.org/W2250539671",
-        "https://openalex.org/W2251939518",
-        "https://openalex.org/W2270070752",
-        "https://openalex.org/W2396767181",
-        "https://openalex.org/W2413794162",
-        "https://openalex.org/W2462831000",
-        "https://openalex.org/W2507974895",
-        "https://openalex.org/W2525778437",
-        "https://openalex.org/W2551396370",
-        "https://openalex.org/W2610858497",
-        "https://openalex.org/W2784823820",
-        "https://openalex.org/W2806120502",
-        "https://openalex.org/W2880875857",
-        "https://openalex.org/W2886490473",
-        "https://openalex.org/W2888329843",
-        "https://openalex.org/W2891602716",
-        "https://openalex.org/W2897076808",
-        "https://openalex.org/W2949433733",
-        "https://openalex.org/W2951714314",
-        "https://openalex.org/W2962718483",
-        "https://openalex.org/W2962739339",
-        "https://openalex.org/W2962808855",
-        "https://openalex.org/W2963026768",
-        "https://openalex.org/W2963159690",
-        "https://openalex.org/W2963310665",
-        "https://openalex.org/W2963339397",
-        "https://openalex.org/W2963403868",
-        "https://openalex.org/W2963563735",
-        "https://openalex.org/W2963564796",
-        "https://openalex.org/W2963644595",
-        "https://openalex.org/W2963748441",
-        "https://openalex.org/W2963756346",
-        "https://openalex.org/W2963804993",
-        "https://openalex.org/W2963846996",
-        "https://openalex.org/W2963918774",
-        "https://openalex.org/W3098057198",
-        "https://openalex.org/W3104033643"
-      ]
-    },
-    "https://openalex.org/W2949849869": {
-      "id": "https://openalex.org/W2949849869",
-      "title": "Synthetic QA Corpora Generation with Roundtrip Consistency",
-      "year": 2019,
-      "authors": "Chris Alberti, Daniel Andor, Emily Pitler et al.",
-      "cited_by_count": 213,
-      "referenced_works": [
-        "https://openalex.org/W1531374185",
-        "https://openalex.org/W1822246767",
-        "https://openalex.org/W2546938941",
-        "https://openalex.org/W2798931235",
-        "https://openalex.org/W2889326796",
-        "https://openalex.org/W2896457183",
-        "https://openalex.org/W2912924812",
-        "https://openalex.org/W2913222130",
-        "https://openalex.org/W2938830017",
-        "https://openalex.org/W2962717047",
-        "https://openalex.org/W2962977247",
-        "https://openalex.org/W2963175042",
-        "https://openalex.org/W2963206679",
-        "https://openalex.org/W2963216553",
-        "https://openalex.org/W2963323070",
-        "https://openalex.org/W2963341956",
-        "https://openalex.org/W2963938442",
-        "https://openalex.org/W4288623406"
-      ]
-    },
-    "https://openalex.org/W2979826702": {
-      "id": "https://openalex.org/W2979826702",
-      "title": "Transformers: State-of-the-Art Natural Language Processing",
-      "year": 2020,
-      "authors": "Thomas Wolf, Lysandre Debut, Victor Sanh et al.",
-      "cited_by_count": 8033,
-      "referenced_works": [
-        "https://openalex.org/W2123442489",
-        "https://openalex.org/W2752194699",
-        "https://openalex.org/W2804032941",
-        "https://openalex.org/W2896457183",
-        "https://openalex.org/W2914120296",
-        "https://openalex.org/W2923014074",
-        "https://openalex.org/W2933138175",
-        "https://openalex.org/W2943552823",
-        "https://openalex.org/W2946417913",
-        "https://openalex.org/W2950339735",
-        "https://openalex.org/W2951490152",
-        "https://openalex.org/W2953320089",
-        "https://openalex.org/W2962739339",
-        "https://openalex.org/W2963026768",
-        "https://openalex.org/W2963212250",
-        "https://openalex.org/W2963691697",
-        "https://openalex.org/W2964110616",
-        "https://openalex.org/W2964343359",
-        "https://openalex.org/W2965373594",
-        "https://openalex.org/W2970597249",
-        "https://openalex.org/W2970771982",
-        "https://openalex.org/W2972119347",
-        "https://openalex.org/W2973727699",
-        "https://openalex.org/W2978017171",
-        "https://openalex.org/W2979949198",
-        "https://openalex.org/W2996428491",
-        "https://openalex.org/W3011411500",
-        "https://openalex.org/W3015468748",
-        "https://openalex.org/W3034999214",
-        "https://openalex.org/W3037109418",
-        "https://openalex.org/W3037191812",
-        "https://openalex.org/W3100279624",
-        "https://openalex.org/W4287760320",
-        "https://openalex.org/W4287824654",
-        "https://openalex.org/W4288089799",
-        "https://openalex.org/W4295838474",
-        "https://openalex.org/W4297747548",
-        "https://openalex.org/W4302343710",
-        "https://openalex.org/W4385245566"
-      ]
-    },
     "https://openalex.org/W4400047099": {
       "id": "https://openalex.org/W4400047099",
       "title": "Large Legal Fictions: Profiling Legal Hallucinations in Large Language Models",
@@ -4903,15 +4240,7 @@
     ],
     [
       "https://openalex.org/W4389519118",
-      "https://openalex.org/W2898875342"
-    ],
-    [
-      "https://openalex.org/W4389519118",
       "https://openalex.org/W2912924812"
-    ],
-    [
-      "https://openalex.org/W4389519118",
-      "https://openalex.org/W2970476646"
     ],
     [
       "https://openalex.org/W4389519118",
@@ -4923,31 +4252,7 @@
     ],
     [
       "https://openalex.org/W4389519118",
-      "https://openalex.org/W3121904249"
-    ],
-    [
-      "https://openalex.org/W4389519118",
-      "https://openalex.org/W3176182290"
-    ],
-    [
-      "https://openalex.org/W4389519118",
-      "https://openalex.org/W3185341429"
-    ],
-    [
-      "https://openalex.org/W4389519118",
-      "https://openalex.org/W3199958362"
-    ],
-    [
-      "https://openalex.org/W4389519118",
       "https://openalex.org/W4221143046"
-    ],
-    [
-      "https://openalex.org/W4389519118",
-      "https://openalex.org/W4221152111"
-    ],
-    [
-      "https://openalex.org/W4389519118",
-      "https://openalex.org/W4226278401"
     ],
     [
       "https://openalex.org/W4389519118",
@@ -4959,31 +4264,11 @@
     ],
     [
       "https://openalex.org/W4389519118",
-      "https://openalex.org/W4312091845"
-    ],
-    [
-      "https://openalex.org/W4389519118",
-      "https://openalex.org/W4318719006"
-    ],
-    [
-      "https://openalex.org/W4389519118",
-      "https://openalex.org/W4322718191"
-    ],
-    [
-      "https://openalex.org/W4389519118",
-      "https://openalex.org/W4322718421"
-    ],
-    [
-      "https://openalex.org/W4389519118",
       "https://openalex.org/W4327810158"
     ],
     [
       "https://openalex.org/W4389519118",
       "https://openalex.org/W4388778348"
-    ],
-    [
-      "https://openalex.org/W4393147129",
-      "https://openalex.org/W2963521540"
     ],
     [
       "https://openalex.org/W4393147129",
@@ -4995,14 +4280,6 @@
     ],
     [
       "https://openalex.org/W4393147129",
-      "https://openalex.org/W3121904249"
-    ],
-    [
-      "https://openalex.org/W4393147129",
-      "https://openalex.org/W4226082499"
-    ],
-    [
-      "https://openalex.org/W4393147129",
       "https://openalex.org/W4301243929"
     ],
     [
@@ -5011,39 +4288,11 @@
     ],
     [
       "https://openalex.org/W4393147129",
-      "https://openalex.org/W4312091845"
-    ],
-    [
-      "https://openalex.org/W4393147129",
-      "https://openalex.org/W4318719006"
-    ],
-    [
-      "https://openalex.org/W4393147129",
-      "https://openalex.org/W4319793302"
-    ],
-    [
-      "https://openalex.org/W4393147129",
-      "https://openalex.org/W4322718421"
-    ],
-    [
-      "https://openalex.org/W4393147129",
       "https://openalex.org/W4385571271"
     ],
     [
       "https://openalex.org/W4317898419",
-      "https://openalex.org/W2896457183"
-    ],
-    [
-      "https://openalex.org/W4317898419",
       "https://openalex.org/W2912924812"
-    ],
-    [
-      "https://openalex.org/W4317898419",
-      "https://openalex.org/W2949849869"
-    ],
-    [
-      "https://openalex.org/W4317898419",
-      "https://openalex.org/W2979826702"
     ],
     [
       "https://openalex.org/W4317898419",
@@ -5056,10 +4305,6 @@
     [
       "https://openalex.org/W4317898419",
       "https://openalex.org/W3155807546"
-    ],
-    [
-      "https://openalex.org/W4317898419",
-      "https://openalex.org/W4226082499"
     ],
     [
       "https://openalex.org/W4317898419",
@@ -5251,10 +4496,6 @@
     ],
     [
       "https://openalex.org/W4406813548",
-      "https://openalex.org/W4322718191"
-    ],
-    [
-      "https://openalex.org/W4406813548",
       "https://openalex.org/W4327810158"
     ],
     [
@@ -5407,10 +4648,6 @@
     ],
     [
       "https://openalex.org/W4392487838",
-      "https://openalex.org/W2949849869"
-    ],
-    [
-      "https://openalex.org/W4392487838",
       "https://openalex.org/W3155807546"
     ],
     [
@@ -5427,10 +4664,6 @@
     ],
     [
       "https://openalex.org/W4399660853",
-      "https://openalex.org/W2979826702"
-    ],
-    [
-      "https://openalex.org/W4399660853",
       "https://openalex.org/W3027879771"
     ],
     [
@@ -5440,10 +4673,6 @@
     [
       "https://openalex.org/W4399660853",
       "https://openalex.org/W4292779060"
-    ],
-    [
-      "https://openalex.org/W4399660853",
-      "https://openalex.org/W4319793302"
     ],
     [
       "https://openalex.org/W4399660853",
@@ -5504,14 +4733,6 @@
     [
       "https://openalex.org/W7118085507",
       "https://openalex.org/W2064675550"
-    ],
-    [
-      "https://openalex.org/W7118085507",
-      "https://openalex.org/W2963521540"
-    ],
-    [
-      "https://openalex.org/W7118085507",
-      "https://openalex.org/W3199958362"
     ],
     [
       "https://openalex.org/W7118085507",
@@ -5623,19 +4844,7 @@
     ],
     [
       "https://openalex.org/W4287891177",
-      "https://openalex.org/W2896457183"
-    ],
-    [
-      "https://openalex.org/W4287891177",
-      "https://openalex.org/W2898875342"
-    ],
-    [
-      "https://openalex.org/W4287891177",
       "https://openalex.org/W2912924812"
-    ],
-    [
-      "https://openalex.org/W4287891177",
-      "https://openalex.org/W2970476646"
     ],
     [
       "https://openalex.org/W4287891177",
@@ -5647,15 +4856,7 @@
     ],
     [
       "https://openalex.org/W4287891177",
-      "https://openalex.org/W4221152111"
-    ],
-    [
-      "https://openalex.org/W4287891177",
       "https://openalex.org/W4288089799"
-    ],
-    [
-      "https://openalex.org/W4404954244",
-      "https://openalex.org/W3185341429"
     ],
     [
       "https://openalex.org/W4404954244",
@@ -5712,14 +4913,6 @@
     [
       "https://openalex.org/W4404944302",
       "https://openalex.org/W3027879771"
-    ],
-    [
-      "https://openalex.org/W4404944302",
-      "https://openalex.org/W3176182290"
-    ],
-    [
-      "https://openalex.org/W4404944302",
-      "https://openalex.org/W4226278401"
     ],
     [
       "https://openalex.org/W4404944302",
