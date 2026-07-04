@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CalybAI — Research Paper Onboarding</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>CalybAI</h1>
+    <div class="controls">
+      <input id="topicInput" value="Retrieval Augmented Generation" placeholder="Research topic">
+      <input id="targetInput" type="number" value="80" min="20" max="200" title="Target papers">
+      <button id="runBtn">Run Analysis</button>
+      <button id="exportBtn" disabled>Export CSV</button>
+    </div>
+    <div id="statusBar">No analysis loaded</div>
+  </header>
+
+  <nav id="tabs">
+    <button class="tab active" data-tab="graph">Graph</button>
+    <button class="tab" data-tab="reading">Reading List</button>
+    <button class="tab" data-tab="stats">Stats</button>
+  </nav>
+
+  <main>
+    <section id="tab-graph" class="tab-content active">
+      <div id="graph-container"></div>
+      <aside id="detail-panel">
+        <div id="detail-empty">Click a paper node to see details</div>
+        <div id="detail-content" style="display:none"></div>
+      </aside>
+    </section>
+
+    <section id="tab-reading" class="tab-content">
+      <div id="reading-list"></div>
+    </section>
+
+    <section id="tab-stats" class="tab-content">
+      <div id="stats-content"></div>
+    </section>
+  </main>
+</div>
+
+<div id="spinner" style="display:none">
+  <div class="spinner"></div>
+  <p>Crawling papers and analyzing...</p>
+</div>
+
+<script src="https://unpkg.com/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

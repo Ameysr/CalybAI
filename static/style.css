@@ -1,0 +1,65 @@
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:#f5f7fa; color:#222; height:100vh; display:flex; flex-direction:column; }
+#app { display:flex; flex-direction:column; height:100vh; }
+
+header { background:#1a2332; color:#fff; padding:12px 20px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+header h1 { font-size:18px; font-weight:700; margin:0; letter-spacing:-0.5px; }
+.controls { display:flex; gap:8px; align-items:center; flex:1; }
+.controls input[type=text] { flex:1; min-width:200px; padding:6px 10px; border:none; border-radius:4px; font-size:13px; }
+.controls input[type=number] { width:70px; padding:6px 8px; border:none; border-radius:4px; font-size:13px; }
+.controls button { padding:6px 14px; border:none; border-radius:4px; cursor:pointer; font-size:13px; font-weight:600; }
+#runBtn { background:#3b82f6; color:#fff; }
+#runBtn:hover { background:#2563eb; }
+#exportBtn { background:#22c55e; color:#fff; }
+#exportBtn:hover { background:#16a34a; }
+#exportBtn:disabled { opacity:0.4; cursor:default; }
+#statusBar { font-size:12px; color:#94a3b8; white-space:nowrap; }
+
+#tabs { display:flex; background:#e2e8f0; padding:0 20px; }
+.tab { padding:10px 20px; border:none; background:none; cursor:pointer; font-size:13px; font-weight:600; color:#64748b; border-bottom:2px solid transparent; }
+.tab:hover { color:#1e293b; }
+.tab.active { color:#3b82f6; border-bottom-color:#3b82f6; }
+
+main { flex:1; overflow:hidden; position:relative; }
+.tab-content { display:none; height:100%; overflow:auto; }
+.tab-content.active { display:flex; }
+
+#tab-graph { flex-direction:row; }
+#graph-container { flex:1; height:100%; background:#fff; }
+#detail-panel { width:340px; background:#fff; border-left:1px solid #e2e8f0; padding:16px; overflow-y:auto; }
+#detail-empty { color:#94a3b8; font-size:14px; text-align:center; padding:40px 0; }
+#detail-content h3 { font-size:16px; margin-bottom:6px; }
+#detail-content .meta { font-size:12px; color:#64748b; margin-bottom:12px; display:flex; gap:12px; flex-wrap:wrap; }
+#detail-content .meta span { background:#f1f5f9; padding:2px 8px; border-radius:3px; }
+
+#tab-reading { flex-direction:column; }
+#reading-list { padding:16px 20px; max-width:900px; margin:0 auto; }
+.reading-item { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid #e2e8f0; }
+.reading-item .rank { font-size:14px; font-weight:700; color:#3b82f6; min-width:32px; }
+.reading-item .info { flex:1; }
+.reading-item .title { font-size:14px; font-weight:500; }
+.reading-item .meta { font-size:12px; color:#64748b; margin-top:2px; }
+.reading-item .badge { font-size:11px; padding:1px 6px; border-radius:3px; margin-left:6px; }
+.badge-foundational { background:#dbeafe; color:#1d4ed8; }
+.badge-survey { background:#fef3c7; color:#b45309; }
+
+#tab-stats { flex-direction:column; }
+#stats-content { padding:16px 20px; max-width:900px; margin:0 auto; }
+.stat-card { background:#fff; border-radius:8px; padding:16px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,0.08); }
+.stat-card h3 { font-size:14px; color:#64748b; margin-bottom:8px; }
+.stat-grid { display:flex; gap:16px; flex-wrap:wrap; }
+.stat-item { padding:12px 16px; background:#f8fafc; border-radius:6px; flex:1; min-width:100px; text-align:center; }
+.stat-item .value { font-size:24px; font-weight:700; color:#1e293b; }
+.stat-item .label { font-size:11px; color:#94a3b8; text-transform:uppercase; }
+
+#spinner { position:fixed; inset:0; background:rgba(0,0,0,0.5); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:100; }
+#spinner p { color:#fff; margin-top:12px; font-size:14px; }
+.spinner { width:40px; height:40px; border:4px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:spin 0.8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+@media (max-width:768px) {
+  header { flex-direction:column; align-items:stretch; }
+  .controls { flex-wrap:wrap; }
+  #detail-panel { width:100%; max-height:40vh; }
+  #tab-graph { flex-direction:column; }
+}
