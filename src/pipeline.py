@@ -12,14 +12,14 @@ def run_pipeline(topic, target=80):
     graph = graph.largest_component()
 
     analyzer = Analyzer(graph)
+    pr = analyzer.pagerank()
+    in_deg, out_deg = analyzer.degree_metrics()
+    communities = analyzer.detect_communities()
+
     curriculum = Curriculum(graph, analyzer)
     reading, has_cycles = curriculum.reading_order()
     foundational = curriculum.foundational_papers(top_n=10)
     surveys = curriculum.survey_papers(top_n=5)
-    stats = analyzer.stats()
-    communities = analyzer.detect_communities()
-    pr = analyzer.pagerank()
-    in_deg, out_deg = analyzer.degree_metrics()
 
     safe = topic.lower().replace(" ", "_").replace("-", "_")[:40]
     path = DATA_DIR / f"{safe}.json"
