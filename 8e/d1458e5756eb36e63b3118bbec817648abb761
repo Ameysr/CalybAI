@@ -1,0 +1,21 @@
+src/analyzer.py
+  s_d12eeb6998ecf6::t_2a63f2fe00bad6 7-11,14-16,19-22,25-31,34-35,39,42-43
+src/pipeline.py
+  s_d12eeb6998ecf6::t_ede6c08b80c2f2 15-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "8ed1458e5756eb36e63b3118bbec817648abb761",
+  "prompts": {},
+  "sessions": {
+    "s_d12eeb6998ecf6": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0d712c2a5ffeZDvZ6qfnhtWPE7",
+        "model": "unknown"
+      },
+      "human_author": "Amey Ranaware <ranaware.amey@gmail.com>"
+    }
+  }
+}
