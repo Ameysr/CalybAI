@@ -1,0 +1,21 @@
+requirements.txt
+  s_d12eeb6998ecf6::t_3788d41de81ddd 4-5
+data/retrieval_augmented_generation.json
+  s_d12eeb6998ecf6::t_249aaac3204e9c 16,146,589,1066,1117,1857-1859,1861-1862,1865-1866,1869-1870,1873-1874,1877-1878,1881-1882,1885-1886,1889-1890,1893-1894,1897-1898,1901-1902,1905-1906,1909-1910,1913-1914,1917-1918,1921,1925-1926,1929-1930,1933-1934,1937-1938,1941-1942,1945-1946,1949-1950,1953-1954,1957-1958,1961-1962,1965-1966,1969-1970,1973-1974,1977,1982
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a12d27ebf2a37eacae5937a502aa8b33de1bfed9",
+  "prompts": {},
+  "sessions": {
+    "s_d12eeb6998ecf6": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0d712c2a5ffeZDvZ6qfnhtWPE7",
+        "model": "unknown"
+      },
+      "human_author": "Amey Ranaware <ranaware.amey@gmail.com>"
+    }
+  }
+}
