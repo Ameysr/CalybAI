@@ -58,7 +58,7 @@ def _is_relevant(title, keywords):
     t = title.lower()
     return any(k in t for k in keywords)
 
-def crawl_topic(query, target=80, cit_limit=15):
+def crawl_topic(query, target=25, cit_limit=15):
     keywords = _topic_keywords(query)
     seeds = search_works(query, limit=50)
     seeds = [p for p in seeds if _is_relevant(p.get("title"), keywords)]

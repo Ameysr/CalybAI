@@ -4,7 +4,7 @@ from pipeline import run_pipeline
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Research Paper Onboarding")
     parser.add_argument("--topic", default="Retrieval Augmented Generation")
-    parser.add_argument("--target", type=int, default=80)
+    parser.add_argument("--target", type=int, default=25)
     args = parser.parse_args()
 
     result = run_pipeline(args.topic, args.target)
