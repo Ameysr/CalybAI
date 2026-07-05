@@ -1,0 +1,21 @@
+src/pipeline.py
+  s_d12eeb6998ecf6::t_57fa127b38685f 19
+src/curriculum.py
+  s_d12eeb6998ecf6::t_16ffbdc7b01691 4,7-9,33,54-55,68-70,80,91,96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "989b8d4661e8e11c1cb044ff5292298ab162d21a",
+  "prompts": {},
+  "sessions": {
+    "s_d12eeb6998ecf6": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0d712c2a5ffeZDvZ6qfnhtWPE7",
+        "model": "unknown"
+      },
+      "human_author": "Amey Ranaware <ranaware.amey@gmail.com>"
+    }
+  }
+}
