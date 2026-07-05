@@ -16,7 +16,7 @@ def run_pipeline(topic, target=80):
     in_deg, out_deg = analyzer.degree_metrics()
     communities = analyzer.detect_communities()
 
-    curriculum = Curriculum(graph, analyzer)
+    curriculum = Curriculum(graph, pr, in_deg, out_deg)
     reading, has_cycles = curriculum.reading_order()
     foundational = curriculum.foundational_papers(top_n=10)
     surveys = curriculum.survey_papers(top_n=5)
