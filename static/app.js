@@ -5,6 +5,8 @@ let nodesDataSet = null;
 let edgesDataSet = null;
 let selectedNodeId = null;
 let physicsEnabled = true;
+let cachedFound = [];
+let cachedSurv = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   checkStatus();
@@ -609,12 +611,8 @@ async function showPaperDetail(pid) {
     const readList = getReadPapers();
     const isRead = readList.includes(pid);
     
-    const [found, surv] = await Promise.all([
-      fetch("/api/foundational").then(res => res.json()),
-      fetch("/api/surveys").then(res => res.json()),
-    ]);
-    const isFound = found.some(f => f.id === pid);
-    const isSurv = surv.some(s => s.id === pid);
+    const isFound = cachedFound.some(f => f.id === pid);
+    const isSurv = cachedSurv.some(s => s.id === pid);
 
     const badges = [];
     if (isFound) badges.push('<span class="detail-tag badge-foundational"><i data-lucide="award"></i>Foundational</span>');
@@ -742,6 +740,8 @@ async function loadReading() {
     const foundIds = new Set(found.map(f => f.id));
     const survIds = new Set(surv.map(s => s.id));
 
+    cachedFound = found;
+    cachedSurv = surv;
     const readList = getReadPapers();
 
     const list = document.getElementById("reading-list");
@@ -793,6 +793,8 @@ async function loadStats() {
       fetch("/api/graph").then(r => r.json()),
     ]);
 
+    cachedFound = foundR;
+    cachedSurv = survR;
     const s = statusR.stats;
     const topPr = [...graphR.nodes].sort((a, b) => b.pagerank - a.pagerank).slice(0, 5);
     const topCit = [...graphR.nodes].sort((a, b) => b.citations - a.citations).slice(0, 5);
@@ -907,5 +909,11 @@ function jumpToGraphNode(pid) {
 }
 
 function exportFile(fmt) {
-  window.open(`/api/export.${fmt}`, "_blank");
+  const a = document.createElement("a");
+  a.href = `/api/export.${fmt}`;
+  a.download = `reading_order.${fmt}`;
+  a.style.display = "none";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
