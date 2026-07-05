@@ -45,8 +45,23 @@ def get_works_batch(ids, delay=0.05):
             result[w["id"]] = _clean_paper(w)
     return result
 
+_STOP = {"the","and","for","with","from","this","that","using","based","paper","study",
+          "a","in","to","of","on","by","an","is","we","its","are","it","as","at","their","new"}
+
+def _topic_keywords(query):
+    words = query.lower().replace("-", " ").split()
+    return list({w for w in words if w not in _STOP and len(w) > 3})
+
+def _is_relevant(title, keywords):
+    if not keywords or not title:
+        return True
+    t = title.lower()
+    return any(k in t for k in keywords)
+
 def crawl_topic(query, target=80, cit_limit=15):
+    keywords = _topic_keywords(query)
     seeds = search_works(query, limit=50)
+    seeds = [p for p in seeds if _is_relevant(p.get("title"), keywords)]
     papers = {}
     edges = []
 
@@ -79,6 +94,8 @@ def crawl_topic(query, target=80, cit_limit=15):
             for c in citing:
                 if len(papers) >= target * 2:
                     break
+                if not _is_relevant(c.get("title"), keywords):
+                    continue
                 cid = c["id"]
                 if cid not in papers:
                     papers[cid] = c
