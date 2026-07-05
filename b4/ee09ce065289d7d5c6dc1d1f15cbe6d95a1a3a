@@ -1,0 +1,23 @@
+static/app.js
+  s_d12eeb6998ecf6::t_2f53b4399931b4 743-744
+  s_d12eeb6998ecf6::t_445c09aeae5026 796-797
+  s_d12eeb6998ecf6::t_1a677b109de7dc 912-918
+  s_d12eeb6998ecf6::t_88c6ce666dbff1 8-9
+  s_d12eeb6998ecf6::t_a21be25ed360ff 614-615
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b4ee09ce065289d7d5c6dc1d1f15cbe6d95a1a3a",
+  "prompts": {},
+  "sessions": {
+    "s_d12eeb6998ecf6": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0d712c2a5ffeZDvZ6qfnhtWPE7",
+        "model": "unknown"
+      },
+      "human_author": "Amey Ranaware <ranaware.amey@gmail.com>"
+    }
+  }
+}
