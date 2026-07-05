@@ -1,0 +1,19 @@
+static/style.css
+  s_d12eeb6998ecf6::t_e1c0e447361ac2 1077,1080-1082,1086,1092-1095,1099,1104-1106,1111-1113,1117,1119,1123-1124,1131
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "682489fa87377911f5d47f191f770260cf15cf1c",
+  "prompts": {},
+  "sessions": {
+    "s_d12eeb6998ecf6": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0d712c2a5ffeZDvZ6qfnhtWPE7",
+        "model": "unknown"
+      },
+      "human_author": "Amey Ranaware <ranaware.amey@gmail.com>"
+    }
+  }
+}
