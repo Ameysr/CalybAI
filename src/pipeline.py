@@ -1,8 +1,8 @@
 from pathlib import Path
 import networkx as nx
-from graph import PaperGraph
-from analyzer import Analyzer
-from curriculum import Curriculum
+from src.graph import PaperGraph
+from src.analyzer import Analyzer
+from src.curriculum import Curriculum
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 

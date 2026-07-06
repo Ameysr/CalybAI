@@ -9,9 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, Response
 from pydantic import BaseModel
 
-import sys
-sys.path.insert(0, str(Path(__file__).parent / "src"))
-from pipeline import run_pipeline
+from src.pipeline import run_pipeline
 
 app = FastAPI(title="CalybAI")
 

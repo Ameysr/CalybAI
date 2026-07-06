@@ -1,5 +1,5 @@
 import argparse
-from pipeline import run_pipeline
+from src.pipeline import run_pipeline
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Research Paper Onboarding")

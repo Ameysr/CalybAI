@@ -25,7 +25,7 @@ class PaperGraph:
             self.graph.add_edge(from_id, to_id)
 
     def from_collector(self, query, target=50):
-        from collector import crawl_topic
+        from src.collector import crawl_topic
         papers_list, edges = crawl_topic(query, target=target)
         for p in papers_list:
             self.add_paper(p["id"], p)
