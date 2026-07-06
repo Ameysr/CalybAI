@@ -1,0 +1,25 @@
+src/analyzer.py
+  s_d12eeb6998ecf6::t_b3f3bec9bd0629 8,19-24,54,67-68
+src/pipeline.py
+  s_d12eeb6998ecf6::t_cd5d906f483ad9 16,20,39-40
+src/curriculum.py
+  s_d12eeb6998ecf6::t_2e3f9f8b48cecd 85,96,101,104,111-112
+  s_d12eeb6998ecf6::t_d7c814c13a185f 4,8-9
+  s_d12eeb6998ecf6::t_e45f48212c9996 56,71-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "a0d7580e5d3fcea0283ab50f585495e0150ff4a2",
+  "prompts": {},
+  "sessions": {
+    "s_d12eeb6998ecf6": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0d712c2a5ffeZDvZ6qfnhtWPE7",
+        "model": "unknown"
+      },
+      "human_author": "Amey Ranaware <ranaware.amey@gmail.com>"
+    }
+  }
+}
