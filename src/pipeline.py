@@ -6,7 +6,7 @@ from curriculum import Curriculum
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
-def run_pipeline(topic, target=25):
+def run_pipeline(topic, target=50):
     graph = PaperGraph()
     graph.from_collector(topic, target=target)
     graph = graph.largest_component()

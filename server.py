@@ -21,7 +21,7 @@ cache_lock = threading.RLock()
 
 class RunRequest(BaseModel):
     topic: str
-    target: int = 25
+    target: int = 50
 
 def _read_cache():
     with cache_lock:
@@ -35,7 +35,7 @@ def _read_cache_field(field):
 @app.post("/api/run")
 async def run_analysis(req: RunRequest):
     topic = req.topic.strip() if req.topic else ""
-    target = max(10, min(200, req.target))
+    target = max(50, min(200, req.target))
 
     if not topic:
         raise HTTPException(400, "Topic cannot be empty")
