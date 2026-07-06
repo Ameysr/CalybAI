@@ -1,10 +1,12 @@
 import networkx as nx
 
 class Curriculum:
-    def __init__(self, graph, pr, in_deg, out_deg):
+    def __init__(self, graph, pr, hubs, auths, in_deg, out_deg):
         self.graph = graph.graph
         self.papers = graph.papers
         self._pr = pr
+        self._hubs = hubs
+        self._auths = auths
         self._in_deg = in_deg
         self._out_deg = out_deg
 
@@ -51,6 +53,7 @@ class Curriculum:
         nodes.sort(key=lambda pid: (
             depths.get(pid, 0),
             self.papers.get(pid, {}).get("year") or 9999,
+            -self._auths.get(pid, 0),
             -self._pr.get(pid, 0),
             -self._in_deg.get(pid, 0)
         ))
@@ -65,6 +68,8 @@ class Curriculum:
                 "authors": md.get("authors", "?"),
                 "year": md.get("year"),
                 "citations": md.get("cited_by_count", 0),
+                "authority": round(self._auths.get(pid, 0), 6),
+                "hub": round(self._hubs.get(pid, 0), 6),
                 "pagerank": round(self._pr.get(pid, 0), 6),
                 "in_degree": self._in_deg.get(pid, 0),
                 "out_degree": self._out_deg.get(pid, 0),
@@ -77,7 +82,7 @@ class Curriculum:
         scored = []
         for pid in self.graph.nodes():
             rank = order_map.get(pid, 9999)
-            score = self._pr.get(pid, 0) - rank * 0.0001
+            score = self._auths.get(pid, 0) - rank * 0.0001
             scored.append((score, pid))
         scored.sort(key=lambda x: x[0], reverse=True)
         result = []
@@ -88,21 +93,22 @@ class Curriculum:
                 "title": md.get("title", "?"),
                 "authors": md.get("authors", "?"),
                 "year": md.get("year"),
-                "pagerank": round(self._pr.get(pid, 0), 6),
+                "authority": round(self._auths.get(pid, 0), 6),
             })
         return result
 
     def survey_papers(self, top_n=5):
-        scored = [(self._out_deg.get(pid, 0), pid) for pid in self.graph.nodes()]
+        scored = [(self._hubs.get(pid, 0), pid) for pid in self.graph.nodes()]
         scored.sort(key=lambda x: x[0], reverse=True)
         result = []
-        for deg, pid in scored[:top_n]:
+        for h, pid in scored[:top_n]:
             md = self.papers.get(pid, {})
             result.append({
                 "id": pid,
                 "title": md.get("title", "?"),
                 "authors": md.get("authors", "?"),
                 "year": md.get("year"),
-                "out_degree": deg,
+                "hub": round(h, 6),
+                "out_degree": self._out_deg.get(pid, 0),
             })
         return result

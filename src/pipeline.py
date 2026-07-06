@@ -13,10 +13,11 @@ def run_pipeline(topic, target=50):
 
     analyzer = Analyzer(graph)
     pr = analyzer.pagerank()
+    hubs, auths = analyzer.hits()
     in_deg, out_deg = analyzer.degree_metrics()
     communities = analyzer.detect_communities()
 
-    curriculum = Curriculum(graph, pr, in_deg, out_deg)
+    curriculum = Curriculum(graph, pr, hubs, auths, in_deg, out_deg)
     reading, has_cycles = curriculum.reading_order()
     foundational = curriculum.foundational_papers(top_n=10)
     surveys = curriculum.survey_papers(top_n=5)
@@ -35,6 +36,8 @@ def run_pipeline(topic, target=50):
             "citations": p.get("cited_by_count", 0),
             "community": communities.get(pid, 0),
             "pagerank": round(pr.get(pid, 0), 6),
+            "authority": round(auths.get(pid, 0), 6),
+            "hub": round(hubs.get(pid, 0), 6),
             "in_degree": in_deg.get(pid, 0),
             "out_degree": out_deg.get(pid, 0),
         })

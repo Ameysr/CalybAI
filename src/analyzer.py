@@ -5,6 +5,7 @@ class Analyzer:
         self.graph = graph.graph
         self.papers = graph.papers
         self._pagerank = None
+        self._hits = None
         self._in_deg = None
         self._out_deg = None
         self._betweenness = None
@@ -14,6 +15,12 @@ class Analyzer:
         if self._pagerank is None:
             self._pagerank = nx.pagerank(self.graph, alpha=0.85)
         return self._pagerank
+
+    def hits(self):
+        if self._hits is None:
+            hubs, authorities = nx.hits(self.graph, max_iter=100, tol=1e-6)
+            self._hits = (hubs, authorities)
+        return self._hits
 
     def degree_metrics(self):
         if self._in_deg is None:
@@ -44,6 +51,7 @@ class Analyzer:
 
     def stats(self):
         pr = self.pagerank()
+        hubs, auths = self.hits()
         in_deg, out_deg = self.degree_metrics()
         bc = self.betweenness()
 
@@ -56,6 +64,8 @@ class Analyzer:
                 "year": md.get("year"),
                 "citations": md.get("cited_by_count", 0),
                 "pagerank": round(pr.get(pid, 0), 6),
+                "authority": round(auths.get(pid, 0), 6),
+                "hub": round(hubs.get(pid, 0), 6),
                 "in_degree": in_deg.get(pid, 0),
                 "out_degree": out_deg.get(pid, 0),
                 "betweenness": round(bc.get(pid, 0), 6),
