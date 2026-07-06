@@ -24,8 +24,8 @@ def _get(url, params=None, delay=0.1, retries=5):
                 time.sleep(wait)
             _last_request = time.time()
             resp = requests.get(url, params=params, timeout=30)
-        if resp.status_code == 429:
-            backoff = delay * (2 ** attempt)
+        if resp.status_code in (429, 503, 502, 504):
+            backoff = delay * (2 ** attempt) + 0.5
             time.sleep(backoff)
             continue
         resp.raise_for_status()
