@@ -309,12 +309,15 @@ main {
   position: relative;
   overflow: hidden;
   background: var(--bg-main);
+  margin: 0;
 }
 
 .tab-content {
   display: none;
   height: 100%;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .tab-content.active {
@@ -324,18 +327,22 @@ main {
 /* Tab 1: Graph Interface */
 #tab-graph {
   flex-direction: row;
+  margin: 0;
+  padding: 0;
 }
 
 .graph-viewport {
   flex: 1;
   height: 100%;
   position: relative;
+  overflow: hidden;
 }
 
 #graph-container {
   width: 100%;
   height: 100%;
-  background: #060504; /* Luxurious deep brown/obsidian backdrop */
+  background: #060504;
+  position: relative;
 }
 
 /* Floating Graph Controls overlay */
@@ -389,12 +396,15 @@ main {
 /* Sidebar Details Panel */
 #detail-panel {
   width: 380px;
+  min-width: 300px;
+  max-width: 450px;
   background: var(--bg-surface);
   border-left: 1px solid var(--border-color);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   transition: var(--transition-normal);
+  flex-shrink: 0;
 }
 
 #detail-empty {
@@ -1077,21 +1087,21 @@ main {
 /* Graph legend overlay — horizontal bar at top */
 .graph-legend-overlay {
   position: absolute;
-  top: 12px;
+  top: 8px;
   left: 50%;
   transform: translateX(-50%);
   background: var(--bg-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  padding: 6px 16px;
-  border-radius: 8px;
+  padding: 5px 14px;
+  border-radius: 6px;
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-lg);
   z-index: 10;
   pointer-events: none;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   white-space: nowrap;
 }
 
