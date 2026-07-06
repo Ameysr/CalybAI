@@ -1,4 +1,4 @@
-# CalybAI — Research Paper Onboarding
+# CalybAI Research Paper Onboarding
 
 An AI powered citation network analyzer that maps a research fields paper relationships and generates structured reading curricula for new researchers. Converts raw OpenAlex paper metadata into ranked dependency respecting reading orders using NetworkX graph analysis and PageRank influence scoring.
 
@@ -10,19 +10,19 @@ Takes a research topic as input, crawls OpenAlex for papers and citation edges, 
 
 ## Key Features
 
-1. **OpenAlex API Crawler** — Fetches papers by semantic search query up to 200 results. Collects referenced works ranked by citation frequency across seeds. Gathers citing papers via the cites filter. Batch resolves placeholder references with openalex multi ID filter 50 per call. No API key required, no rate limit.
+1. **OpenAlex API Crawler**: Fetches papers by semantic search query up to 200 results. Collects referenced works ranked by citation frequency across seeds. Gathers citing papers via the cites filter. Batch resolves placeholder references with openalex multi ID filter 50 per call. No API key required, no rate limit.
 
-2. **NetworkX Directed Graph** — Builds a DiGraph where A to B means A cites B. Nodes store label, year, authors, citation count and community assignment. Filters to the largest connected component to focus on the core citation network.
+2. **NetworkX Directed Graph**: Builds a DiGraph where A to B means A cites B. Nodes store label, year, authors, citation count and community assignment. Filters to the largest connected component to focus on the core citation network.
 
-3. **PageRank Influence Scoring** — Computes nx.pagerank with alpha 0.85 across the citation graph. Results are cached via lazy initialization so no metric is computed more than once per pipeline run.
+3. **PageRank Influence Scoring**: Computes nx.pagerank with alpha 0.85 across the citation graph. Results are cached via lazy initialization so no metric is computed more than once per pipeline run.
 
-4. **Citation Depth Layering** — Each paper gets a dependency depth based on the longest path from root papers (papers with zero inbound citations). Within a layer papers are sorted by year ascending (older first) then PageRank descending (most influential first).
+4. **Citation Depth Layering**: Each paper gets a dependency depth based on the longest path from root papers (papers with zero inbound citations). Within a layer papers are sorted by year ascending (older first) then PageRank descending (most influential first).
 
-5. **Foundational and Survey Detection** — Foundational papers are identified by a combined score of high PageRank plus early reading position. Survey papers are identified by high out degree (papers that survey many references).
+5. **Foundational and Survey Detection**: Foundational papers are identified by a combined score of high PageRank plus early reading position. Survey papers are identified by high out degree (papers that survey many references).
 
-6. **Interactive Web Dashboard** — FastAPI server with vis network interactive citation graph showing paper nodes sized by PageRank, colored by community cluster, with highlighting, tooltips, zoom controls and a detail sidebar. Reading curriculum view with checkable progress tracking persisted in localStorage. Stats dashboard with paper counts, graph density, clustering coefficient and ranked lists.
+6. **Interactive Web Dashboard**: FastAPI server with vis network interactive citation graph showing paper nodes sized by PageRank, colored by community cluster, with highlighting, tooltips, zoom controls and a detail sidebar. Reading curriculum view with checkable progress tracking persisted in localStorage. Stats dashboard with paper counts, graph density, clustering coefficient and ranked lists.
 
-7. **CSV and JSON Export** — Download the full reading order as CSV (rank, title, authors, year, citations, PageRank) or JSON for programmatic use.
+7. **CSV and JSON Export**: Download the full reading order as CSV (rank, title, authors, year, citations, PageRank) or JSON for programmatic use.
 
 ## Architecture
 
