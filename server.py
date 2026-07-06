@@ -1,5 +1,8 @@
 import asyncio
+import math
+import re
 import threading
+from collections import Counter
 from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
@@ -18,6 +21,31 @@ app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
 cache = {}
 cache_lock = threading.RLock()
+
+def _tokenize(text):
+    return [w.lower() for w in re.findall(r"\w{3,}", text or "")]
+
+def _tfidf_similarity(query, titles):
+    q_tokens = _tokenize(query)
+    if not q_tokens:
+        return []
+    q_counts = Counter(q_tokens)
+    n = len(titles)
+    idf = {}
+    for ti, title in titles:
+        for w in set(_tokenize(title)):
+            idf[w] = idf.get(w, 0) + 1
+    results = []
+    for ti, title in titles:
+        t_counts = Counter(_tokenize(title))
+        dot = sum(q_counts[w] * t_counts.get(w, 0) * math.log((n + 1) / (idf.get(w, n) + 1) + 1) for w in q_tokens)
+        q_norm = math.sqrt(sum(c * c for c in q_counts.values()))
+        t_norm = math.sqrt(sum(c * c for c in t_counts.values()))
+        if q_norm * t_norm == 0:
+            continue
+        results.append((ti, title, round(dot / (q_norm * t_norm), 4)))
+    results.sort(key=lambda x: x[2], reverse=True)
+    return results[:10]
 
 class RunRequest(BaseModel):
     topic: str
@@ -57,6 +85,21 @@ async def get_graph():
 async def get_reading_order():
     return _read_cache_field("reading_order")
 
+class NoveltyRequest(BaseModel):
+    query: str
+
+@app.post("/api/novelty")
+async def novelty_check(req: NoveltyRequest):
+    if not req.query.strip():
+        raise HTTPException(400, "Query cannot be empty")
+    nodes = _read_cache_field("graph")["nodes"]
+    titles = [(n["id"], n["title"]) for n in nodes if n.get("title")]
+    matches = _tfidf_similarity(req.query, titles)
+    return {
+        "query": req.query,
+        "matches": [{"id": mid, "title": mt, "similarity": ms} for mid, mt, ms in matches],
+    }
+
 @app.get("/api/foundational")
 async def get_foundational():
     return _read_cache_field("foundational")
@@ -78,6 +121,25 @@ async def get_status():
         if not cache:
             return {"loaded": False}
         return {"loaded": True, "stats": cache["stats"], "topic": cache["topic"]}
+
+@app.get("/api/trends")
+async def get_trends():
+    nodes = _read_cache_field("graph")["nodes"]
+    by_year = {}
+    for n in nodes:
+        y = n.get("year")
+        if y and n.get("pagerank", 0) > 0:
+            by_year.setdefault(y, []).append(n)
+    years = sorted(by_year.keys(), reverse=True)
+    trends = []
+    for y in years[:5]:
+        top = sorted(by_year[y], key=lambda n: n["pagerank"], reverse=True)[:3]
+        trends.append({
+            "year": y,
+            "paper_count": len(by_year[y]),
+            "top_papers": [{"title": t["title"], "pagerank": t["pagerank"], "citations": t["citations"]} for t in top],
+        })
+    return {"trends": trends}
 
 @app.get("/api/export.csv")
 async def export_csv():
