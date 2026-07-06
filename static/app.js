@@ -590,9 +590,14 @@ function updateReadingItemUI(pid, isRead) {
   });
 }
 
-function updateReadingProgress(readList) {
-  const total = currentGraph ? currentGraph.nodes.length : 0;
-  const count = readList.filter(id => currentGraph && currentGraph.nodes.some(n => n.id === id)).length;
+function updateReadingProgress(readList, totalOverride) {
+  const total = totalOverride || (currentGraph ? currentGraph.nodes.length : 0);
+  let count = 0;
+  if (totalOverride) {
+    count = readList.length;
+  } else if (currentGraph) {
+    count = readList.filter(id => currentGraph.nodes.some(n => n.id === id)).length;
+  }
   
   const pct = total > 0 ? Math.round((count / total) * 100) : 0;
   
@@ -779,7 +784,7 @@ async function loadReading() {
       `;
     }).join("");
 
-    updateReadingProgress(readList);
+    updateReadingProgress(readList, ro.length);
     lucide.createIcons();
   } catch {}
 }
