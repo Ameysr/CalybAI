@@ -1,0 +1,22 @@
+server.py
+  s_d12eeb6998ecf6::t_fcaf5b6bd8fa0d 25-49
+  s_d12eeb6998ecf6::t_5ac90d7bfb6893 125-143
+  s_d12eeb6998ecf6::t_34364c2133d0e6 2-3,5
+  s_d12eeb6998ecf6::t_3ef54ceb2f7c01 88-102
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "5c7d89889009c9d89f872efe41bcabb633d36bf3",
+  "prompts": {},
+  "sessions": {
+    "s_d12eeb6998ecf6": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0d712c2a5ffeZDvZ6qfnhtWPE7",
+        "model": "unknown"
+      },
+      "human_author": "Amey Ranaware <ranaware.amey@gmail.com>"
+    }
+  }
+}
