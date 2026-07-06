@@ -11,11 +11,12 @@ MAILTO = "calybai@research.local"
 _rate_lock = threading.Lock()
 _last_request = 0.0
 
-def _get(url, params=None, delay=0.1, retries=5):
+def _get(url, params=None, delay=0.1, retries=10):
     global _last_request
     if params is None:
         params = {}
     params["mailto"] = MAILTO
+    resp = None
     for attempt in range(retries):
         with _rate_lock:
             now = time.time()
@@ -25,12 +26,14 @@ def _get(url, params=None, delay=0.1, retries=5):
             _last_request = time.time()
             resp = requests.get(url, params=params, timeout=30)
         if resp.status_code in (429, 503, 502, 504):
-            backoff = delay * (2 ** attempt) + 0.5
+            backoff = min(delay * (2 ** attempt) + 1, 30)
             time.sleep(backoff)
             continue
         resp.raise_for_status()
         return resp.json()
-    raise Exception(f"Failed after {retries} retries: {url}")
+    body = resp.json() if resp is not None else {}
+    msg = body.get("error", body.get("message", "No response"))
+    raise Exception(f"OpenAlex API failed ({resp.status_code if resp else 'timeout'}): {msg}. Try again later.")
 
 def _short_auth(authorships):
     if not authorships:
