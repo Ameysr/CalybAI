@@ -8,6 +8,13 @@ let physicsEnabled = true;
 let cachedFound = [];
 let cachedSurv = [];
 
+function stopAttentionAnimations() {
+  const btn = document.getElementById("runBtn");
+  const input = document.getElementById("topicInput");
+  if (btn) btn.classList.remove("btn-attention-pulse");
+  if (input) input.classList.remove("input-attention-pulse");
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   checkStatus();
 
@@ -22,6 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("topicInput").addEventListener("keydown", e => {
     if (e.key === "Enter") runAnalysis();
   });
+
+  const controls = document.querySelector(".controls-wrapper");
+  if (controls) {
+    controls.addEventListener("click", stopAttentionAnimations);
+    controls.addEventListener("focusin", stopAttentionAnimations);
+  }
 
   // Graph floating controls
   document.getElementById("zoomInBtn").addEventListener("click", () => {
@@ -48,8 +61,14 @@ async function checkStatus() {
       updateStatusBar(s.topic, s.stats.node_count, s.stats.edge_count);
       enableExports();
       await Promise.all([loadGraph(), loadReading(), loadStats()]);
+    } else {
+      document.getElementById("runBtn").classList.add("btn-attention-pulse");
+      document.getElementById("topicInput").classList.add("input-attention-pulse");
     }
-  } catch {}
+  } catch {
+    document.getElementById("runBtn").classList.add("btn-attention-pulse");
+    document.getElementById("topicInput").classList.add("input-attention-pulse");
+  }
 }
 
 function updateStatusBar(topic, nodeCount, edgeCount) {
@@ -102,6 +121,10 @@ function showSpinner(v, msg = "Analyzing Network...") {
 async function runAnalysis() {
   const topic = document.getElementById("topicInput").value.trim();
   const target = parseInt(document.getElementById("targetInput").value) || 80;
+
+  // Clear onboarding animation classes
+  stopAttentionAnimations();
+
   if (!topic) return showToast("Enter a topic to analyze", true);
 
   showSpinner(true, `Crawling OpenAlex for papers on "${topic}"...`);

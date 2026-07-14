@@ -1171,3 +1171,47 @@ main {
     border-top: 1px solid var(--border-color);
   }
 }
+
+/* User Onboarding On-load Attention Animations */
+@keyframes run-attention-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px var(--color-primary-glow);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow: 0 0 20px 4px rgba(245, 158, 11, 0.5);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 12px var(--color-primary-glow);
+  }
+}
+
+.btn-attention-pulse {
+  animation: run-attention-pulse 2.2s infinite ease-in-out;
+}
+
+.btn-attention-pulse:hover {
+  animation-play-state: paused;
+}
+
+@keyframes border-attention-pulse {
+  0% {
+    border-color: var(--border-color);
+    box-shadow: none;
+  }
+  50% {
+    border-color: var(--border-color-focus);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+  }
+  100% {
+    border-color: var(--border-color);
+    box-shadow: none;
+  }
+}
+
+.input-attention-pulse {
+  animation: border-attention-pulse 2.2s infinite ease-in-out;
+}
+
